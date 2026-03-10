@@ -1995,12 +1995,28 @@
       }
     }
 
-    // Write bytes in chunks (BLE MTU is usually 20 bytes, but most printers accept 100-512)
-    async function writeChunked(char, data, chunkSize = 50) {
+    async function writeBtChunk(char, chunk) {
+      if (char.properties.writeWithoutResponse && typeof char.writeValueWithoutResponse === 'function') {
+        await char.writeValueWithoutResponse(chunk);
+        return;
+      }
+      if (char.properties.write && typeof char.writeValueWithResponse === 'function') {
+        await char.writeValueWithResponse(chunk);
+        return;
+      }
+      if (typeof char.writeValue === 'function') {
+        await char.writeValue(chunk);
+        return;
+      }
+      throw new Error('Printer write mode supported nahi hai');
+    }
+
+    // Write bytes in small chunks for maximum BLE printer compatibility.
+    async function writeChunked(char, data, chunkSize = 20) {
       for (let i = 0; i < data.length; i += chunkSize) {
         const chunk = data.slice(i, i + chunkSize);
-        await char.writeValue(chunk);
-        await new Promise(r => setTimeout(r, 40)); // small delay between chunks
+        await writeBtChunk(char, chunk);
+        await new Promise(r => setTimeout(r, char.properties.writeWithoutResponse ? 60 : 25));
       }
     }
 
