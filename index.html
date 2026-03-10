@@ -1904,6 +1904,31 @@
     }
 
     // Connect to Bluetooth printer
+    async function ensureGattConnection(retries = 2, delay = 700) {
+      if (!btDevice?.gatt) {
+        throw new Error('Printer device select nahi hua');
+      }
+
+      let lastErr = null;
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+          if (btDevice.gatt.connected) {
+            return btDevice.gatt;
+          }
+          const server = await btDevice.gatt.connect();
+          await new Promise(resolve => setTimeout(resolve, delay));
+          if (btDevice.gatt.connected) {
+            return server;
+          }
+        } catch (err) {
+          lastErr = err;
+        }
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+
+      throw lastErr || new Error('Printer reconnect nahi ho paya');
+    }
+
     async function btConnect() {
       if (!navigator.bluetooth) {
         toast('err', 'Bluetooth Error', 'Chrome Android pe chalao, HTTPS chahiye');
@@ -1925,18 +1950,14 @@
           });
         }
 
-        let server = await btDevice.gatt.connect();
-        await new Promise(resolve => setTimeout(resolve, 800)); // Let connection stabilize
+        let server = await ensureGattConnection();
         
         let connected = false;
 
         // Try mapped profiles first
         for (const p of BT_PROFILES) {
           try {
-            if (!btDevice.gatt.connected) {
-              server = await btDevice.gatt.connect();
-              await new Promise(resolve => setTimeout(resolve, 500));
-            }
+            server = await ensureGattConnection();
             const svc = await server.getPrimaryService(p.service);
             btChar = await svc.getCharacteristic(p.char);
             if (btChar) {
@@ -1950,21 +1971,26 @@
         if (!connected) {
           toast('info', 'Generic Mode', 'Finding any writable BT service...');
           try {
-            if (!btDevice.gatt.connected) {
-              server = await btDevice.gatt.connect();
-              await new Promise(resolve => setTimeout(resolve, 500));
-            }
-            const services = await server.getPrimaryServices();
-            for (const svc of services) {
-              const chars = await svc.getCharacteristics();
-              for (const ch of chars) {
-                if (ch.properties.write || ch.properties.writeWithoutResponse) {
-                  btChar = ch;
-                  connected = true;
-                  break;
+            for (let attempt = 0; attempt < 2 && !connected; attempt++) {
+              server = await ensureGattConnection(3, 900);
+              const services = await server.getPrimaryServices();
+              for (const svc of services) {
+                try {
+                  const chars = await svc.getCharacteristics();
+                  for (const ch of chars) {
+                    if (ch.properties.write || ch.properties.writeWithoutResponse) {
+                      btChar = ch;
+                      connected = true;
+                      break;
+                    }
+                  }
+                } catch (scanErr) {
+                  if (!btDevice.gatt.connected) {
+                    break;
+                  }
                 }
+                if (connected || !btDevice.gatt.connected) break;
               }
-              if (connected) break;
             }
           } catch (err) {
             console.error('Fallback fail:', err);
