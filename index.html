@@ -929,8 +929,28 @@
     }
 
     /* ── ACHIEVEMENT ── */
-    .achpop { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(110px); background: white; border: 2px solid var(--warn); border-radius: 16px; padding: 16px 32px; text-align: center; z-index: 9999; box-shadow: 0 8px 32px rgba(249,171,0,0.2); transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; opacity: 0; }
-    .achpop.show { transform: translateX(-50%) translateY(0); pointer-events: auto; opacity: 1; }
+    .achpop {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(110px);
+      background: white;
+      border: 2px solid var(--warn);
+      border-radius: 16px;
+      padding: 16px 32px;
+      text-align: center;
+      z-index: 9999;
+      box-shadow: 0 8px 32px rgba(249, 171, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .achpop.show {
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+      opacity: 1;
+    }
 
     .acho {
       font-size: 40px;
@@ -1110,12 +1130,37 @@
 
     /* ── PRINT ── */
     @media print {
-  body > *:not(.pmodal) { display: none !important; }
-  .pmodal { display: block !important; position: absolute; left: 0; top: 0; background: transparent; }
-  .receipt { position: static; width: 58mm; max-height: none; overflow: visible; box-shadow: none; border: none; padding: 0; margin: 0; }
-  .pbtns { display: none !important; }
-  @page { margin: 0; }
-}
+      body>*:not(.pmodal) {
+        display: none !important;
+      }
+
+      .pmodal {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: transparent;
+      }
+
+      .receipt {
+        position: static;
+        width: 58mm;
+        max-height: none;
+        overflow: visible;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .pbtns {
+        display: none !important;
+      }
+
+      @page {
+        margin: 0;
+      }
+    }
   </style>
 </head>
 
@@ -1871,26 +1916,38 @@
           acceptAllDevices: true,
           optionalServices: BT_PROFILES.map(p => p.service)
         });
-        
-        const server = await btDevice.gatt.connect();
+
+        btDevice.addEventListener('gattserverdisconnected', () => {
+          btChar = null; 
+          setBtStatus('disconnected');
+          toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
+        });
+
+        let server = await btDevice.gatt.connect();
         let connected = false;
 
         // Try mapped profiles first
         for (const p of BT_PROFILES) {
           try {
+            if (!btDevice.gatt.connected) {
+              server = await btDevice.gatt.connect();
+            }
             const svc = await server.getPrimaryService(p.service);
             btChar = await svc.getCharacteristic(p.char);
             if (btChar) {
               connected = true;
               break;
             }
-          } catch (e) {}
+          } catch (e) { }
         }
 
         // Generic Fallback: Find any writable characteristic
         if (!connected) {
           toast('info', 'Generic Mode', 'Finding any writable BT service...');
           try {
+            if (!btDevice.gatt.connected) {
+              server = await btDevice.gatt.connect();
+            }
             const services = await server.getPrimaryServices();
             for (const svc of services) {
               const chars = await svc.getCharacteristics();
@@ -1903,7 +1960,7 @@
               }
               if (connected) break;
             }
-          } catch(err) {
+          } catch (err) {
             console.error('Fallback fail:', err);
           }
         }
@@ -1912,12 +1969,6 @@
           toast('warn', 'Warning', 'Writable printer profile nahi mila.');
           return false;
         }
-
-        btDevice.addEventListener('gattserverdisconnected', () => {
-          btChar = null; btDevice = null;
-          setBtStatus('disconnected');
-          toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
-        });
 
         setBtStatus('connected');
         toast('ok', 'Printer Connected! ✅', btDevice.name || 'Thermal Printer');
