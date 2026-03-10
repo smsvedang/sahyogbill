@@ -1775,6 +1775,7 @@
     // ══════════════════════════════════════════
     let btDevice = null;
     let btChar = null;  // GATT characteristic to write to
+    let btWriteMode = null;
 
     // Known Bluetooth printer service/characteristic UUIDs
     // Most 58mm Chinese thermal printers use one of these
@@ -1829,6 +1830,43 @@
     }
 
     function dashes(w = 32) { return '-'.repeat(w); }
+
+    function getBtWriteMode(char) {
+      if (!char?.properties) return null;
+      if (char.properties.writeWithoutResponse && typeof char.writeValueWithoutResponse === 'function') {
+        return 'withoutResponse';
+      }
+      if (char.properties.write && typeof char.writeValueWithResponse === 'function') {
+        return 'withResponse';
+      }
+      if ((char.properties.write || char.properties.writeWithoutResponse) && typeof char.writeValue === 'function') {
+        return 'legacy';
+      }
+      return null;
+    }
+
+    async function pickWritableCharacteristic(service, preferredUuid = null) {
+      if (preferredUuid) {
+        try {
+          const preferred = await service.getCharacteristic(preferredUuid);
+          const preferredMode = getBtWriteMode(preferred);
+          if (preferredMode) {
+            return { characteristic: preferred, mode: preferredMode };
+          }
+        } catch (e) { }
+      }
+
+      const chars = await service.getCharacteristics();
+      const ranked = chars
+        .map(ch => ({ ch, mode: getBtWriteMode(ch) }))
+        .filter(entry => entry.mode)
+        .sort((a, b) => {
+          const score = mode => mode === 'withoutResponse' ? 2 : mode === 'withResponse' ? 1 : 0;
+          return score(b.mode) - score(a.mode);
+        });
+
+      return ranked.length ? { characteristic: ranked[0].ch, mode: ranked[0].mode } : null;
+    }
 
     // Build complete ESC/POS byte array for the bill
     function buildEscPos(data) {
@@ -1944,7 +1982,8 @@
           });
 
           btDevice.addEventListener('gattserverdisconnected', () => {
-            btChar = null; 
+            btChar = null;
+            btWriteMode = null;
             setBtStatus('disconnected');
             toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
           });
@@ -1959,8 +1998,10 @@
           try {
             server = await ensureGattConnection();
             const svc = await server.getPrimaryService(p.service);
-            btChar = await svc.getCharacteristic(p.char);
-            if (btChar) {
+            const match = await pickWritableCharacteristic(svc, p.char);
+            if (match) {
+              btChar = match.characteristic;
+              btWriteMode = match.mode;
               connected = true;
               break;
             }
@@ -1976,13 +2017,11 @@
               const services = await server.getPrimaryServices();
               for (const svc of services) {
                 try {
-                  const chars = await svc.getCharacteristics();
-                  for (const ch of chars) {
-                    if (ch.properties.write || ch.properties.writeWithoutResponse) {
-                      btChar = ch;
-                      connected = true;
-                      break;
-                    }
+                  const match = await pickWritableCharacteristic(svc);
+                  if (match) {
+                    btChar = match.characteristic;
+                    btWriteMode = match.mode;
+                    connected = true;
                   }
                 } catch (scanErr) {
                   if (!btDevice.gatt.connected) {
@@ -2022,15 +2061,16 @@
     }
 
     async function writeBtChunk(char, chunk) {
-      if (char.properties.writeWithoutResponse && typeof char.writeValueWithoutResponse === 'function') {
+      const mode = btWriteMode || getBtWriteMode(char);
+      if (mode === 'withoutResponse') {
         await char.writeValueWithoutResponse(chunk);
         return;
       }
-      if (char.properties.write && typeof char.writeValueWithResponse === 'function') {
+      if (mode === 'withResponse') {
         await char.writeValueWithResponse(chunk);
         return;
       }
-      if (typeof char.writeValue === 'function') {
+      if (mode === 'legacy') {
         await char.writeValue(chunk);
         return;
       }
@@ -2039,10 +2079,11 @@
 
     // Write bytes in small chunks for maximum BLE printer compatibility.
     async function writeChunked(char, data, chunkSize = 20) {
+      const mode = btWriteMode || getBtWriteMode(char);
       for (let i = 0; i < data.length; i += chunkSize) {
         const chunk = data.slice(i, i + chunkSize);
         await writeBtChunk(char, chunk);
-        await new Promise(r => setTimeout(r, char.properties.writeWithoutResponse ? 60 : 25));
+        await new Promise(r => setTimeout(r, mode === 'withoutResponse' ? 60 : 25));
       }
     }
 
@@ -2081,6 +2122,7 @@
       } catch (e) {
         setBtStatus('disconnected');
         btChar = null;
+        btWriteMode = null;
         toast('err', 'Print Failed', 'Dobara try karo: ' + (e.message || ''));
       }
     }
