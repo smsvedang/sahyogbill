@@ -1,736 +1,1430 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Sahyog Medical</title>
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f0f4f8;
-  --white: #ffffff;
-  --border: #dde3ec;
-  --border2: #c8d2e0;
-  --text: #1a2332;
-  --text2: #5a6a7e;
-  --text3: #9aa5b4;
-  --accent: #1a73e8;
-  --accent-light: #e8f0fe;
-  --accent-dark: #1557b0;
-  --green: #0f9d58;
-  --green-light: #e6f4ea;
-  --danger: #d93025;
-  --danger-light: #fce8e6;
-  --warn: #f9ab00;
-  --radius: 12px;
-  --sh: 0 2px 8px rgba(0,0,0,0.08);
-  --sh2: 0 4px 20px rgba(0,0,0,0.12);
-  --header-h: 56px;
-  --target-h: 52px;
-  --bottom-h: 72px;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Sahyog Medical</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --white: #ffffff;
+      --border: #dde3ec;
+      --border2: #c8d2e0;
+      --text: #1a2332;
+      --text2: #5a6a7e;
+      --text3: #9aa5b4;
+      --accent: #1a73e8;
+      --accent-light: #e8f0fe;
+      --accent-dark: #1557b0;
+      --green: #0f9d58;
+      --green-light: #e6f4ea;
+      --danger: #d93025;
+      --danger-light: #fce8e6;
+      --warn: #f9ab00;
+      --radius: 12px;
+      --sh: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --sh2: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --header-h: 56px;
+      --target-h: 52px;
+      --bottom-h: 72px;
+    }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { font-size: 16px; }
-body {
-  font-family: 'Mukta', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  min-height: 100dvh;
-  overscroll-behavior: none;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* ── HEADER ── */
-.hdr {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: var(--header-h);
-  background: var(--accent);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 14px;
-  z-index: 200;
-  box-shadow: 0 2px 12px rgba(26,115,232,0.3);
-}
-.hdr-left { display: flex; align-items: center; gap: 10px; }
-.hdr-ico { font-size: 22px; }
-.hdr-name { font-size: 16px; font-weight: 700; color: white; line-height: 1.1; }
-.hdr-sub { font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
-.hdr-right { display: flex; align-items: center; gap: 8px; }
-.hdr-clock { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500; }
-.bill-badge {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: white;
-  font-weight: 700; font-size: 12px;
-  padding: 4px 10px; border-radius: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  white-space: nowrap;
-}
+    html {
+      font-size: 16px;
+    }
 
-/* ── TARGET BAR ── */
-.target-bar {
-  position: fixed;
-  top: var(--header-h); left: 0; right: 0;
-  height: var(--target-h);
-  background: white;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 14px; gap: 10px;
-  z-index: 190;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-.t-lbl { font-size: 12px; font-weight: 700; color: var(--text2); white-space: nowrap; }
-.t-prog { flex: 1; height: 8px; background: #e8edf2; border-radius: 4px; overflow: hidden; }
-.t-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-dark)); border-radius: 4px; transition: width 0.7s ease; }
-.t-pct { font-size: 13px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; min-width: 38px; text-align: right; }
-.t-count { font-size: 11px; color: var(--text3); white-space: nowrap; }
-.t-count b { color: var(--text); font-family: 'JetBrains Mono', monospace; }
-.t-emoji { font-size: 16px; }
+    body {
+      font-family: 'Mukta', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior: none;
+    }
 
-/* ── SCROLL AREA ── */
-.scroll-area {
-  padding-top: calc(var(--header-h) + var(--target-h) + 12px);
-  padding-bottom: calc(var(--bottom-h) + 16px);
-  padding-left: 12px;
-  padding-right: 12px;
-  max-width: 640px;
-  margin: 0 auto;
-}
+    /* ── HEADER ── */
+    .hdr {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      z-index: 200;
+      box-shadow: 0 2px 12px rgba(26, 115, 232, 0.3);
+    }
 
-/* ── CARD ── */
-.card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--sh);
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-.card-hd {
-  padding: 12px 14px 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  background: #fafbfd;
-}
-.card-ttl {
-  font-size: 12px; font-weight: 700;
-  color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 7px;
-}
-.card-ttl::before { content:''; width:3px; height:13px; background:var(--accent); border-radius:2px; flex-shrink:0; }
-.card-bd { padding: 14px; }
+    .hdr-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-/* ── FORM FIELDS ── */
-.field { margin-bottom: 12px; }
-.field:last-child { margin-bottom: 0; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.lbl { display: block; font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.7px; text-transform: uppercase; margin-bottom: 5px; }
-.lbl .r { color: var(--danger); }
-.inp {
-  width: 100%; border: 1.5px solid var(--border2); border-radius: 10px;
-  padding: 11px 13px; font-family: 'Mukta', sans-serif; font-size: 15px;
-  color: var(--text); background: white; outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none; appearance: none;
-  min-height: 46px;
-}
-.inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
-.inp::placeholder { color: var(--text3); }
-select.inp {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%235a6a7e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
-  padding-right: 32px; cursor: pointer;
-}
+    .hdr-ico {
+      font-size: 22px;
+    }
 
-/* ── AUTOCOMPLETE ── */
-.acw { position: relative; }
-.acl {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: white; border: 1.5px solid var(--accent);
-  border-radius: 10px; box-shadow: var(--sh2); z-index: 999;
-  max-height: 220px; overflow-y: auto; display: none;
-}
-.acl.open { display: block; }
-.aco {
-  padding: 12px 14px; cursor: pointer; font-size: 14px;
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid var(--border); transition: background 0.1s;
-  min-height: 48px;
-}
-.aco:last-child { border-bottom: none; }
-.aco:active { background: var(--accent-light); }
-.aco .xm { font-size: 12px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+    .hdr-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+    }
 
-/* ── UPLOAD ── */
-.upbox {
-  border: 2px dashed var(--border2); border-radius: 10px;
-  padding: 14px; text-align: center; cursor: pointer;
-  background: #fafbfc; transition: all 0.2s; min-height: 70px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-}
-.upbox.filled { border-color: var(--green); background: var(--green-light); }
-.upbox input { display: none; }
-.upico { font-size: 22px; }
-.uptxt { font-size: 12px; color: var(--text2); }
+    .hdr-sub {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 1px;
+    }
 
-/* ── QUICK MEDS ── */
-.qlbl { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
-.qbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.qbtn {
-  background: var(--accent-light); border: 1px solid #b8d0f5;
-  border-radius: 20px; padding: 6px 12px; font-size: 13px;
-  font-weight: 600; color: var(--accent); cursor: pointer;
-  font-family: 'Mukta', sans-serif; transition: all 0.15s;
-  white-space: nowrap; min-height: 36px;
-}
-.qbtn:active { background: var(--accent); color: white; }
+    .hdr-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-/* ── MEDICINE CARDS ── */
-.med-card {
-  background: #fafbfd; border: 1px solid var(--border);
-  border-radius: 10px; margin-bottom: 8px; overflow: hidden;
-}
-.med-card-top {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 12px 8px;
-}
-.med-name-wrap { flex: 1; position: relative; }
-.med-num {
-  width: 24px; height: 24px; background: var(--accent); color: white;
-  border-radius: 50%; font-size: 11px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
-}
-.med-del {
-  width: 36px; height: 36px; border: none; background: none;
-  color: var(--text3); font-size: 20px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; flex-shrink: 0; transition: all 0.15s;
-}
-.med-del:active { background: var(--danger-light); color: var(--danger); }
-.med-card-grid {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 6px; padding: 0 12px 10px;
-}
-.med-mini-field { display: flex; flex-direction: column; gap: 3px; }
-.med-mini-lbl { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.5px; text-transform: uppercase; }
-.mini-inp {
-  border: 1px solid var(--border2); border-radius: 8px;
-  padding: 8px 8px; font-family: 'Mukta', sans-serif; font-size: 14px;
-  font-weight: 600; color: var(--text); background: white; outline: none;
-  width: 100%; text-align: center; min-height: 40px;
-  -webkit-appearance: none; transition: border-color 0.15s;
-}
-.mini-inp:focus { border-color: var(--accent); }
-select.mini-inp { padding-right: 20px; font-size: 13px; text-align: left;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%235a6a7e' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 6px center; }
-.med-amount {
-  display: flex; align-items: center; justify-content: flex-end;
-  padding: 0 12px 10px; gap: 6px;
-}
-.med-amt-lbl { font-size: 12px; color: var(--text3); }
-.med-amt-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--green); }
+    .hdr-clock {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 500;
+    }
 
-/* ── ADD MED BUTTON ── */
-.add-med-btn {
-  width: 100%; padding: 13px; border: 2px dashed var(--border2);
-  border-radius: 10px; background: white; color: var(--accent);
-  font-family: 'Mukta', sans-serif; font-size: 15px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; display: flex;
-  align-items: center; justify-content: center; gap: 6px;
-  min-height: 50px;
-}
-.add-med-btn:active { border-color: var(--accent); background: var(--accent-light); }
+    .bill-badge {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+    }
 
-/* ── DISCOUNT + TOTAL ── */
-.disc-total-row {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; margin-top: 14px; padding-top: 14px;
-  border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
-}
-.disc-section { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.disc-lbl { font-size: 13px; font-weight: 700; color: var(--text2); white-space: nowrap; }
-.disc-toggle {
-  display: flex; border: 1.5px solid var(--border2);
-  border-radius: 8px; overflow: hidden;
-}
-.disc-toggle button {
-  padding: 8px 14px; border: none; font-family: 'Mukta', sans-serif;
-  font-size: 14px; font-weight: 700; cursor: pointer; min-height: 40px; min-width: 44px;
-  transition: all 0.15s;
-}
-#dTypePct { background: var(--accent); color: white; }
-#dTypeAmt { background: white; color: var(--text2); border-left: 1px solid var(--border2); }
-.disc-val-inp {
-  border: 1.5px solid var(--border2); border-radius: 8px;
-  padding: 8px 10px; font-family: 'JetBrains Mono', monospace;
-  font-size: 16px; font-weight: 700; color: var(--danger);
-  width: 80px; outline: none; text-align: center; min-height: 44px;
-  -webkit-appearance: none;
-}
-.disc-val-inp:focus { border-color: var(--danger); }
-.disc-sym { font-size: 15px; font-weight: 700; color: var(--text2); }
-.disc-saved { font-size: 12px; color: var(--green); font-weight: 600; }
+    /* ── TARGET BAR ── */
+    .target-bar {
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      height: var(--target-h);
+      background: white;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 10px;
+      z-index: 190;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
 
-.total-section { text-align: right; }
-.total-lbl-sm { font-size: 11px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.total-sub-sm { font-size: 13px; color: var(--text2); font-family: 'JetBrains Mono', monospace; }
-.total-grand { font-size: 32px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; line-height: 1; }
+    .t-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text2);
+      white-space: nowrap;
+    }
 
-/* ── RECENT BILLS ── */
-.brow {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 0; border-bottom: 1px solid var(--border);
-}
-.brow:last-child { border-bottom: none; }
-.bdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.bdot.pending { background: var(--warn); }
-.bdot.done { background: var(--green); }
-.bno { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); min-width: 44px; }
-.bpat { flex: 1; font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.btime { font-size: 11px; color: var(--text3); white-space: nowrap; }
-.bamt { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); font-size: 14px; }
+    .t-prog {
+      flex: 1;
+      height: 8px;
+      background: #e8edf2;
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-/* ── FIXED BOTTOM BAR ── */
-.bottom-bar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  height: var(--bottom-h);
-  background: white;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; gap: 6px;
-  padding: 10px 10px;
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
-  z-index: 200;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
-}
-.bbtn {
-  flex: 1; border: none; border-radius: 10px;
-  font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700;
-  cursor: pointer; transition: all 0.15s; display: flex;
-  align-items: center; justify-content: center; gap: 4px;
-  min-height: 50px; padding: 0 6px;
-}
-.bbtn-new   { background: var(--danger-light); color: var(--danger); flex: 0.65; font-size: 13px; }
-.bbtn-new:active { background: #f5b5b0; }
-.bbtn-save  { background: var(--accent-light); color: var(--accent); }
-.bbtn-save:active { background: #c5d9f5; }
-.bbtn-print { background: #f0f4ff; color: var(--accent); border: 1.5px solid #c5d4f5; }
-.bbtn-print:active { background: var(--accent-light); }
-.bbtn-bt {
-  background: var(--accent); color: white;
-  flex: 0.65; font-size: 22px;
-  box-shadow: 0 3px 10px rgba(26,115,232,0.35);
-  position: relative;
-}
-.bbtn-bt:active { background: var(--accent-dark); transform: scale(0.96); }
-.bbtn-bt.connected { background: var(--green); box-shadow: 0 3px 10px rgba(15,157,88,0.35); }
-.bbtn-bt.printing  { background: var(--warn);  box-shadow: 0 3px 10px rgba(249,171,0,0.35); }
-/* Pulsing dot on BT button when connected */
-.bbtn-bt.connected::after {
-  content: ''; position: absolute; top: 8px; right: 8px;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: white; opacity: 0.8;
-  animation: pulse 1.5s infinite;
-}
-@keyframes pulse { 0%,100%{transform:scale(1);opacity:0.8} 50%{transform:scale(1.4);opacity:0.4} }
+    .t-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+      border-radius: 4px;
+      transition: width 0.7s ease;
+    }
 
-/* ── TOAST ── */
-.toast-wrap { position: fixed; top: 68px; left: 12px; right: 12px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast {
-  background: white; border-radius: 10px; padding: 12px 14px;
-  display: flex; align-items: center; gap: 10px;
-  box-shadow: var(--sh2); border-left: 4px solid var(--accent);
-  animation: pin 0.3s ease; font-size: 14px;
-}
-.toast.ok { border-left-color: var(--green); }
-.toast.err { border-left-color: var(--danger); }
-.toast.warn { border-left-color: var(--warn); }
-@keyframes pin { from{transform:translateY(-20px);opacity:0} to{transform:translateY(0);opacity:1} }
-.ti { font-size: 18px; flex-shrink: 0; }
-.tt { font-weight: 700; color: var(--text); font-size: 14px; }
-.tm { font-size: 12px; color: var(--text2); }
+    .t-pct {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 38px;
+      text-align: right;
+    }
 
-/* ── ACHIEVEMENT ── */
-.achpop {
-  position: fixed; bottom: 90px; left: 50%;
-  transform: translateX(-50%) translateY(120px);
-  background: white; border: 2px solid var(--warn);
-  border-radius: 16px; padding: 16px 28px; text-align: center;
-  z-index: 9999; box-shadow: 0 8px 32px rgba(249,171,0,0.2);
-  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  width: calc(100% - 40px); max-width: 320px;
-}
-.achpop.show { transform: translateX(-50%) translateY(0); }
-.acho { font-size: 40px; }
-.acht { font-size: 20px; font-weight: 700; color: var(--text); margin-top: 4px; }
-.achs { font-size: 13px; color: var(--text2); margin-top: 2px; }
+    .t-count {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+    }
 
-/* ── PRINT MODAL ── */
-.pmodal {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.55); z-index: 9998;
-  align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(3px);
-}
-.pmodal.open { display: flex; }
-.pwrap {
-  background: white; border-radius: 20px 20px 0 0;
-  width: 100%; max-width: 480px;
-  padding: 20px 20px max(20px, env(safe-area-inset-bottom));
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  max-height: 90vh; overflow-y: auto;
-}
-.pwrap-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin-bottom: 4px; }
-.receipt {
-  background: white; width: 100%; max-width: 232px;
-  padding: 14px 12px; font-family: 'Courier New', monospace;
-  font-size: 12px; border: 1px solid var(--border);
-  border-radius: 4px; line-height: 1.6;
-}
-.rc { text-align: center; }
-.rb { font-weight: bold; }
-.rdash { border: none; border-top: 1px dashed #bbb; margin: 5px 0; }
-.rrow { display: flex; justify-content: space-between; }
-.pbtns { display: flex; gap: 8px; width: 100%; }
-.pbtn {
-  flex: 1; padding: 13px 6px; border-radius: 10px; border: none;
-  font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700;
-  cursor: pointer; min-height: 50px;
-}
-.pbtn-c  { background: var(--bg); color: var(--text2); border: 1.5px solid var(--border2); flex: 0.7; }
-.pbtn-bt { background: var(--accent); color: white; }
-.pbtn-p  { background: #f0f4ff; color: var(--accent); border: 1.5px solid #c5d4f5; flex: 0.8; font-size: 13px; }
+    .t-count b {
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-/* ── KEYBOARD HINTS (desktop only) ── */
-.hints { display: none; }
-@media (min-width: 640px) {
-  .hints { display: flex; gap: 12px; flex-wrap: wrap; padding: 4px 0 10px; }
-  .hint { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text3); }
-  kbd { background: white; border: 1px solid var(--border2); border-radius: 4px; padding: 1px 5px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text2); }
-}
+    .t-emoji {
+      font-size: 16px;
+    }
 
-/* ── TABLET / DESKTOP ── */
-@media (min-width: 640px) {
-  .field-row { grid-template-columns: 1fr 1fr; }
-  .pmodal { align-items: center; }
-  .pwrap { border-radius: 16px; max-width: 400px; }
-  .pwrap-handle { display: none; }
-}
+    /* ── SCROLL AREA ── */
+    .scroll-area {
+      padding-top: calc(var(--header-h) + var(--target-h) + 12px);
+      padding-bottom: calc(var(--bottom-h) + 16px);
+      padding-left: 12px;
+      padding-right: 12px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
 
-/* ── PRINT ── */
-@media print {
-  body * { visibility: hidden; }
-  .receipt, .receipt * { visibility: visible; }
-  .receipt { position: fixed; left: 0; top: 0; width: 58mm; border: none; }
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--sh);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .card-hd {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafbfd;
+    }
+
+    .card-ttl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text2);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .card-ttl::before {
+      content: '';
+      width: 3px;
+      height: 13px;
+      background: var(--accent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .card-bd {
+      padding: 14px;
+    }
+
+    /* ── FORM FIELDS ── */
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .lbl {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text2);
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .lbl .r {
+      color: var(--danger);
+    }
+
+    .inp {
+      width: 100%;
+      border: 1.5px solid var(--border2);
+      border-radius: 10px;
+      padding: 11px 13px;
+      font-family: 'Mukta', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 46px;
+    }
+
+    .inp:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+
+    .inp::placeholder {
+      color: var(--text3);
+    }
+
+    select.inp {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%235a6a7e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+
+    /* ── AUTOCOMPLETE ── */
+    .acw {
+      position: relative;
+    }
+
+    .acl {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      box-shadow: var(--sh2);
+      z-index: 999;
+      max-height: 220px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .acl.open {
+      display: block;
+    }
+
+    .aco {
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+      min-height: 48px;
+    }
+
+    .aco:last-child {
+      border-bottom: none;
+    }
+
+    .aco:active {
+      background: var(--accent-light);
+    }
+
+    .aco .xm {
+      font-size: 12px;
+      color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── UPLOAD ── */
+    .upbox {
+      border: 2px dashed var(--border2);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      background: #fafbfc;
+      transition: all 0.2s;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .upbox.filled {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .upbox input {
+      display: none;
+    }
+
+    .upico {
+      font-size: 22px;
+    }
+
+    .uptxt {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* ── QUICK MEDS ── */
+    .qlbl {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .qbtns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .qbtn {
+      background: var(--accent-light);
+      border: 1px solid #b8d0f5;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      font-family: 'Mukta', sans-serif;
+      transition: all 0.15s;
+      white-space: nowrap;
+      min-height: 36px;
+    }
+
+    .qbtn:active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ── MEDICINE CARDS ── */
+    .med-card {
+      background: #fafbfd;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .med-card-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px 8px;
+    }
+
+    .med-name-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .med-num {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .med-del {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: none;
+      color: var(--text3);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .med-del:active {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .med-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 0 12px 10px;
+    }
+
+    .med-mini-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .med-mini-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .mini-inp {
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 8px 8px;
+      font-family: 'Mukta', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      background: white;
+      outline: none;
+      width: 100%;
+      text-align: center;
+      min-height: 40px;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+
+    .mini-inp:focus {
+      border-color: var(--accent);
+    }
+
+    select.mini-inp {
+      padding-right: 20px;
+      font-size: 13px;
+      text-align: left;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%235a6a7e' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+    }
+
+    .med-amount {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 12px 10px;
+      gap: 6px;
+    }
+
+    .med-amt-lbl {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    .med-amt-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ── ADD MED BUTTON ── */
+    .add-med-btn {
+      width: 100%;
+      padding: 13px;
+      border: 2px dashed var(--border2);
+      border-radius: 10px;
+      background: white;
+      color: var(--accent);
+      font-family: 'Mukta', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 50px;
+    }
+
+    .add-med-btn:active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    /* ── DISCOUNT + TOTAL ── */
+    .disc-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .disc-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .disc-lbl {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text2);
+      white-space: nowrap;
+    }
+
+    .disc-toggle {
+      display: flex;
+      border: 1.5px solid var(--border2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .disc-toggle button {
+      padding: 8px 14px;
+      border: none;
+      font-family: 'Mukta', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 40px;
+      min-width: 44px;
+      transition: all 0.15s;
+    }
+
+    #dTypePct {
+      background: var(--accent);
+      color: white;
+    }
+
+    #dTypeAmt {
+      background: white;
+      color: var(--text2);
+      border-left: 1px solid var(--border2);
+    }
+
+    .disc-val-inp {
+      border: 1.5px solid var(--border2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--danger);
+      width: 80px;
+      outline: none;
+      text-align: center;
+      min-height: 44px;
+      -webkit-appearance: none;
+    }
+
+    .disc-val-inp:focus {
+      border-color: var(--danger);
+    }
+
+    .disc-sym {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text2);
+    }
+
+    .disc-saved {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .total-section {
+      text-align: right;
+    }
+
+    .total-lbl-sm {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .total-sub-sm {
+      font-size: 13px;
+      color: var(--text2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .total-grand {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+    }
+
+    /* ── RECENT BILLS ── */
+    .brow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brow:last-child {
+      border-bottom: none;
+    }
+
+    .bdot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .bdot.pending {
+      background: var(--warn);
+    }
+
+    .bdot.done {
+      background: var(--green);
+    }
+
+    .bno {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      min-width: 44px;
+    }
+
+    .bpat {
+      flex: 1;
+      font-weight: 600;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btime {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+    }
+
+    .bamt {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    /* ── FIXED BOTTOM BAR ── */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--bottom-h);
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 10px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+      z-index: 200;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .bbtn {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Mukta', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 50px;
+      padding: 0 6px;
+    }
+
+    .bbtn-new {
+      background: var(--danger-light);
+      color: var(--danger);
+      flex: 0.65;
+      font-size: 13px;
+    }
+
+    .bbtn-new:active {
+      background: #f5b5b0;
+    }
+
+    .bbtn-save {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .bbtn-save:active {
+      background: #c5d9f5;
+    }
+
+    .bbtn-print {
+      background: #f0f4ff;
+      color: var(--accent);
+      border: 1.5px solid #c5d4f5;
+    }
+
+    .bbtn-print:active {
+      background: var(--accent-light);
+    }
+
+    .bbtn-bt {
+      background: var(--accent);
+      color: white;
+      flex: 0.65;
+      font-size: 22px;
+      box-shadow: 0 3px 10px rgba(26, 115, 232, 0.35);
+      position: relative;
+    }
+
+    .bbtn-bt:active {
+      background: var(--accent-dark);
+      transform: scale(0.96);
+    }
+
+    .bbtn-bt.connected {
+      background: var(--green);
+      box-shadow: 0 3px 10px rgba(15, 157, 88, 0.35);
+    }
+
+    .bbtn-bt.printing {
+      background: var(--warn);
+      box-shadow: 0 3px 10px rgba(249, 171, 0, 0.35);
+    }
+
+    /* Pulsing dot on BT button when connected */
+    .bbtn-bt.connected::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0.8;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.8
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 0.4
+      }
+    }
+
+    /* ── TOAST ── */
+    .toast-wrap {
+      position: fixed;
+      top: 68px;
+      left: 12px;
+      right: 12px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: white;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--sh2);
+      border-left: 4px solid var(--accent);
+      animation: pin 0.3s ease;
+      font-size: 14px;
+    }
+
+    .toast.ok {
+      border-left-color: var(--green);
+    }
+
+    .toast.err {
+      border-left-color: var(--danger);
+    }
+
+    .toast.warn {
+      border-left-color: var(--warn);
+    }
+
+    @keyframes pin {
+      from {
+        transform: translateY(-20px);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    .ti {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .tt {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .tm {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* ── ACHIEVEMENT ── */
+    .achpop { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(110px); background: white; border: 2px solid var(--warn); border-radius: 16px; padding: 16px 32px; text-align: center; z-index: 9999; box-shadow: 0 8px 32px rgba(249,171,0,0.2); transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; opacity: 0; }
+    .achpop.show { transform: translateX(-50%) translateY(0); pointer-events: auto; opacity: 1; }
+
+    .acho {
+      font-size: 40px;
+    }
+
+    .acht {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .achs {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+
+    /* ── PRINT MODAL ── */
+    .pmodal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 9998;
+      align-items: flex-end;
+      justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .pmodal.open {
+      display: flex;
+    }
+
+    .pwrap {
+      background: white;
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 20px max(20px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .pwrap-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border2);
+      border-radius: 2px;
+      margin-bottom: 4px;
+    }
+
+    .receipt {
+      background: white;
+      width: 100%;
+      max-width: 232px;
+      padding: 14px 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      line-height: 1.6;
+    }
+
+    .rc {
+      text-align: center;
+    }
+
+    .rb {
+      font-weight: bold;
+    }
+
+    .rdash {
+      border: none;
+      border-top: 1px dashed #bbb;
+      margin: 5px 0;
+    }
+
+    .rrow {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .pbtns {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .pbtn {
+      flex: 1;
+      padding: 13px 6px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'Mukta', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 50px;
+    }
+
+    .pbtn-c {
+      background: var(--bg);
+      color: var(--text2);
+      border: 1.5px solid var(--border2);
+      flex: 0.7;
+    }
+
+    .pbtn-bt {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pbtn-p {
+      background: #f0f4ff;
+      color: var(--accent);
+      border: 1.5px solid #c5d4f5;
+      flex: 0.8;
+      font-size: 13px;
+    }
+
+    /* ── KEYBOARD HINTS (desktop only) ── */
+    .hints {
+      display: none;
+    }
+
+    @media (min-width: 640px) {
+      .hints {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 4px 0 10px;
+      }
+
+      .hint {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--text3);
+      }
+
+      kbd {
+        background: white;
+        border: 1px solid var(--border2);
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: var(--text2);
+      }
+    }
+
+    /* ── TABLET / DESKTOP ── */
+    @media (min-width: 640px) {
+      .field-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pmodal {
+        align-items: center;
+      }
+
+      .pwrap {
+        border-radius: 16px;
+        max-width: 400px;
+      }
+
+      .pwrap-handle {
+        display: none;
+      }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+  body > *:not(.pmodal) { display: none !important; }
+  .pmodal { display: block !important; position: absolute; left: 0; top: 0; background: transparent; }
+  .receipt { position: static; width: 58mm; max-height: none; overflow: visible; box-shadow: none; border: none; padding: 0; margin: 0; }
+  .pbtns { display: none !important; }
+  @page { margin: 0; }
 }
-</style>
+  </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
-<header class="hdr">
-  <div class="hdr-left">
-    <div class="hdr-ico">⚕️</div>
-    <div>
-      <div class="hdr-name">Sahyog Medical</div>
-      <div class="hdr-sub">Manasa, MP</div>
-    </div>
-  </div>
-  <div class="hdr-right">
-    <div class="hdr-clock" id="clock">--:--</div>
-    <div class="bill-badge">Bill #<span id="billNoDisp">...</span></div>
-  </div>
-</header>
-
-<!-- TARGET BAR -->
-<div class="target-bar">
-  <div class="t-lbl">🎯 <strong id="targetLbl">100</strong></div>
-  <div class="t-prog"><div class="t-fill" id="progFill" style="width:0%"></div></div>
-  <div class="t-pct" id="progPct">0%</div>
-  <div class="t-count"><b id="bdone">0</b>/<b id="btarget">100</b></div>
-  <div class="t-emoji" id="temoji">📋</div>
-</div>
-
-<!-- SCROLL AREA -->
-<div class="scroll-area">
-
-  <!-- Keyboard hints (desktop) -->
-  <div class="hints">
-    <div class="hint"><kbd>F2</kbd> New</div>
-    <div class="hint"><kbd>F3</kbd> Add Med</div>
-    <div class="hint"><kbd>F4</kbd> Print</div>
-    <div class="hint"><kbd>Alt+S</kbd> Save</div>
-  </div>
-
-  <!-- Patient Card -->
-  <div class="card">
-    <div class="card-hd">
-      <div class="card-ttl">Patient Details</div>
-      <span style="font-size:12px;color:var(--text3)" id="todayDate"></span>
-    </div>
-    <div class="card-bd">
-      <div class="field-row">
-        <div class="field acw" style="margin-bottom:0">
-          <label class="lbl">Patient Name <span class="r">*</span></label>
-          <input class="inp" id="patName" placeholder="मरीज़ का नाम..." autocomplete="off"
-            oninput="acPat(this.value)" onblur="setTimeout(()=>closeAc('acPatD'),200)">
-          <div class="acl" id="acPatD"></div>
-        </div>
-        <div class="field" style="margin-bottom:0">
-          <label class="lbl">Doctor</label>
-          <input class="inp" id="docName" placeholder="Doctor का नाम...">
-        </div>
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-ico">⚕️</div>
+      <div>
+        <div class="hdr-name">Sahyog Medical</div>
+        <div class="hdr-sub">Manasa, MP</div>
       </div>
-      <div class="field-row" style="margin-top:10px; margin-bottom:0;">
-        <div class="field" style="margin-bottom:0">
-          <label class="lbl">Mobile</label>
-          <input class="inp" id="mobile" placeholder="9XXXXXXXXX" type="tel" maxlength="10" inputmode="numeric">
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-clock" id="clock">--:--</div>
+      <div class="bill-badge">Bill #<span id="billNoDisp">...</span></div>
+    </div>
+  </header>
+
+  <!-- TARGET BAR -->
+  <div class="target-bar">
+    <div class="t-lbl">🎯 <strong id="targetLbl">100</strong></div>
+    <div class="t-prog">
+      <div class="t-fill" id="progFill" style="width:0%"></div>
+    </div>
+    <div class="t-pct" id="progPct">0%</div>
+    <div class="t-count"><b id="bdone">0</b>/<b id="btarget">100</b></div>
+    <div class="t-emoji" id="temoji">📋</div>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div class="scroll-area">
+
+    <!-- Keyboard hints (desktop) -->
+    <div class="hints">
+      <div class="hint"><kbd>F2</kbd> New</div>
+      <div class="hint"><kbd>F3</kbd> Add Med</div>
+      <div class="hint"><kbd>F4</kbd> Print</div>
+      <div class="hint"><kbd>Alt+S</kbd> Save</div>
+    </div>
+
+    <!-- Patient Card -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">Patient Details</div>
+        <span style="font-size:12px;color:var(--text3)" id="todayDate"></span>
+      </div>
+      <div class="card-bd">
+        <div class="field-row">
+          <div class="field acw" style="margin-bottom:0">
+            <label class="lbl">Patient Name <span class="r">*</span></label>
+            <input class="inp" id="patName" placeholder="मरीज़ का नाम..." autocomplete="off" oninput="acPat(this.value)"
+              onblur="setTimeout(()=>closeAc('acPatD'),200)">
+            <div class="acl" id="acPatD"></div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label class="lbl">Doctor</label>
+            <input class="inp" id="docName" placeholder="Doctor का नाम...">
+          </div>
         </div>
-        <div class="field" style="margin-bottom:0">
-          <label class="lbl">Prescription</label>
-          <div class="upbox" id="upBox" onclick="document.getElementById('upFile').click()">
-            <input type="file" id="upFile" accept="image/*,.pdf" capture="environment" onchange="handleUp(this)">
-            <div class="upico">📋</div>
-            <div class="uptxt" id="upTxt">Upload / Camera</div>
+        <div class="field-row" style="margin-top:10px; margin-bottom:0;">
+          <div class="field" style="margin-bottom:0">
+            <label class="lbl">Mobile</label>
+            <input class="inp" id="mobile" placeholder="9XXXXXXXXX" type="tel" maxlength="10" inputmode="numeric">
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label class="lbl">Prescription</label>
+            <div class="upbox" id="upBox" onclick="document.getElementById('upFile').click()">
+              <input type="file" id="upFile" accept="image/*,.pdf" capture="environment" onchange="handleUp(this)">
+              <div class="upico">📋</div>
+              <div class="uptxt" id="upTxt">Upload / Camera</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Medicine Card -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">Medicines</div>
+        <span style="font-size:12px;color:var(--text3);" id="medCount">0 items</span>
+      </div>
+      <div class="card-bd">
+
+        <!-- Quick Add -->
+        <div class="qlbl">Quick Add</div>
+        <div class="qbtns" id="qbtns"></div>
+
+        <!-- Medicine cards container -->
+        <div id="medList"></div>
+
+        <!-- Add button -->
+        <button class="add-med-btn" onclick="addRow()">➕ Medicine Add करें</button>
+
+        <!-- Discount + Total -->
+        <div class="disc-total-row">
+          <div class="disc-section">
+            <span class="disc-lbl">Discount</span>
+            <div class="disc-toggle">
+              <button id="dTypePct" onclick="setDiscType('pct')">%</button>
+              <button id="dTypeAmt" onclick="setDiscType('amt')">₹</button>
+            </div>
+            <input type="number" class="disc-val-inp" id="discVal" value="10" min="0" inputmode="decimal"
+              oninput="calcAll()">
+            <span class="disc-sym" id="discUnit">%</span>
+            <span class="disc-saved" id="discSaved"></span>
+          </div>
+          <div class="total-section">
+            <div class="total-lbl-sm">Total</div>
+            <div class="total-sub-sm" id="subShow">₹0</div>
+            <div class="total-grand" id="grandShow">₹0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Bills -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-ttl">Recent Bills</div>
+      </div>
+      <div class="card-bd" id="recentList" style="padding:10px 14px;min-height:48px;">
+        <div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>
+      </div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- FIXED BOTTOM BAR -->
+  <div class="bottom-bar">
+    <button class="bbtn bbtn-new" onclick="newBill()">❌ New</button>
+    <button class="bbtn bbtn-save" onclick="saveBill()">💾 Save</button>
+    <button class="bbtn bbtn-print" onclick="printBill()">👁️ Preview</button>
+    <button class="bbtn bbtn-bt" id="btPrintBtn" onclick="btPrint()">🖨️</button>
   </div>
 
-  <!-- Medicine Card -->
-  <div class="card">
-    <div class="card-hd">
-      <div class="card-ttl">Medicines</div>
-      <span style="font-size:12px;color:var(--text3);" id="medCount">0 items</span>
-    </div>
-    <div class="card-bd">
-
-      <!-- Quick Add -->
-      <div class="qlbl">Quick Add</div>
-      <div class="qbtns" id="qbtns"></div>
-
-      <!-- Medicine cards container -->
-      <div id="medList"></div>
-
-      <!-- Add button -->
-      <button class="add-med-btn" onclick="addRow()">➕ Medicine Add करें</button>
-
-      <!-- Discount + Total -->
-      <div class="disc-total-row">
-        <div class="disc-section">
-          <span class="disc-lbl">Discount</span>
-          <div class="disc-toggle">
-            <button id="dTypePct" onclick="setDiscType('pct')">%</button>
-            <button id="dTypeAmt" onclick="setDiscType('amt')">₹</button>
-          </div>
-          <input type="number" class="disc-val-inp" id="discVal" value="10" min="0" inputmode="decimal" oninput="calcAll()">
-          <span class="disc-sym" id="discUnit">%</span>
-          <span class="disc-saved" id="discSaved"></span>
-        </div>
-        <div class="total-section">
-          <div class="total-lbl-sm">Total</div>
-          <div class="total-sub-sm" id="subShow">₹0</div>
-          <div class="total-grand" id="grandShow">₹0</div>
-        </div>
+  <!-- PRINT MODAL -->
+  <div class="pmodal" id="pmodal" onclick="if(event.target===this)closePrint()">
+    <div class="pwrap">
+      <div class="pwrap-handle"></div>
+      <div class="receipt" id="receiptEl"></div>
+      <div class="pbtns">
+        <button class="pbtn pbtn-c" onclick="closePrint()">Close</button>
+        <button class="pbtn pbtn-bt" id="modalBtBtn" onclick="btPrint()">🖨️ Direct Print</button>
+        <button class="pbtn pbtn-p" onclick="window.print()">📄 Browser</button>
       </div>
     </div>
   </div>
 
-  <!-- Recent Bills -->
-  <div class="card">
-    <div class="card-hd"><div class="card-ttl">Recent Bills</div></div>
-    <div class="card-bd" id="recentList" style="padding:10px 14px;min-height:48px;">
-      <div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>
-    </div>
+  <!-- TOAST -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- ACHIEVEMENT -->
+  <div class="achpop" id="achpop">
+    <div class="acho" id="acho">🏆</div>
+    <div class="acht" id="acht">Target!</div>
+    <div class="achs" id="achs">Great Work!</div>
   </div>
 
-</div><!-- /scroll-area -->
+  <script>
+    // ══════════════════════════════════════════
+    // CONFIG — SHEETS URL YAHAN DAALO
+    // ══════════════════════════════════════════
+    const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxgHafvhytA6ankBKiN90jCjWD1JTNynVGHRyeyiqepFg1Uapzi8Ibc2s_joQbIow78/exec";
+    // ↑ Apna deployed Apps Script URL yahan paste karo — bas yahi ek line badalni hai
 
-<!-- FIXED BOTTOM BAR -->
-<div class="bottom-bar">
-  <button class="bbtn bbtn-new" onclick="newBill()">❌ New</button>
-  <button class="bbtn bbtn-save" onclick="saveBill()">💾 Save</button>
-  <button class="bbtn bbtn-print" onclick="printBill()">👁️ Preview</button>
-  <button class="bbtn bbtn-bt" id="btPrintBtn" onclick="btPrint()">🖨️</button>
-</div>
+    // ══════════════════════════════════════════
+    // SHEETS SYNC
+    // ══════════════════════════════════════════
+    async function syncSheets(data) {
+      if (SHEETS_URL.includes("YOUR_SCRIPT")) return;
+      try {
+        await fetch(SHEETS_URL, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      } catch (e) { }
+    }
 
-<!-- PRINT MODAL -->
-<div class="pmodal" id="pmodal" onclick="if(event.target===this)closePrint()">
-  <div class="pwrap">
-    <div class="pwrap-handle"></div>
-    <div class="receipt" id="receiptEl"></div>
-    <div class="pbtns">
-      <button class="pbtn pbtn-c" onclick="closePrint()">Close</button>
-      <button class="pbtn pbtn-bt" id="modalBtBtn" onclick="btPrint()">🖨️ Direct Print</button>
-      <button class="pbtn pbtn-p" onclick="window.print()">📄 Browser</button>
-    </div>
-  </div>
-</div>
+    // ══════════════════════════════════════════
+    // MEDICINE MASTER
+    // ══════════════════════════════════════════
+    const MEDS = [
+    ];
 
-<!-- TOAST -->
-<div class="toast-wrap" id="toastWrap"></div>
+    const PATIENTS = [
+    ];
 
-<!-- ACHIEVEMENT -->
-<div class="achpop" id="achpop">
-  <div class="acho" id="acho">🏆</div>
-  <div class="acht" id="acht">Target!</div>
-  <div class="achs" id="achs">Great Work!</div>
-</div>
+    // ══════════════════════════════════════════
+    // STATE
+    // ══════════════════════════════════════════
+    let billNo = null;
+    let billsDone = parseInt(localStorage.getItem('sahyog_done_today') || '0');
+    const TODAY = new Date().toLocaleDateString('en-IN');
+    if (localStorage.getItem('sahyog_date') !== TODAY) {
+      localStorage.setItem('sahyog_date', TODAY);
+      billsDone = 0;
+      localStorage.setItem('sahyog_done_today', '0');
+    }
+    let targetBills = parseInt(localStorage.getItem('sahyog_target') || '100');
+    let recent = [];
+    let rid = 0;
+    let upFile = "";       // file name for display
+    let upBase64 = "";     // base64 data to send
+    let upMime = "";       // mime type
 
-<script>
-// ══════════════════════════════════════════
-// CONFIG — SHEETS URL YAHAN DAALO
-// ══════════════════════════════════════════
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxgHafvhytA6ankBKiN90jCjWD1JTNynVGHRyeyiqepFg1Uapzi8Ibc2s_joQbIow78/exec";
-// ↑ Apna deployed Apps Script URL yahan paste karo — bas yahi ek line badalni hai
+    // ══════════════════════════════════════════
+    // BILL ID — Sheets se ya timestamp fallback
+    // ══════════════════════════════════════════
+    function makeFallbackId() {
+      const n = new Date();
+      const dd = String(n.getDate()).padStart(2, '0');
+      const mo = String(n.getMonth() + 1).padStart(2, '0');
+      const hh = String(n.getHours()).padStart(2, '0');
+      const mm = String(n.getMinutes()).padStart(2, '0');
+      const rr = String(Math.floor(Math.random() * 90) + 10);
+      return `${dd}${mo}-${hh}${mm}-${rr}`;
+    }
 
-// ══════════════════════════════════════════
-// SHEETS SYNC
-// ══════════════════════════════════════════
-async function syncSheets(data) {
-  if (SHEETS_URL.includes("YOUR_SCRIPT")) return;
-  try {
-    await fetch(SHEETS_URL, {
-      method:"POST", mode:"no-cors",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify(data)
-    });
-  } catch(e) {}
-}
+    async function fetchNextBillNo() {
+      const el = document.getElementById('billNoDisp');
+      el.textContent = '...';
+      if (SHEETS_URL.includes('YOUR_SCRIPT')) {
+        billNo = makeFallbackId();
+        el.textContent = billNo; return;
+      }
+      try {
+        const res = await fetch(SHEETS_URL + '?action=getNextBillNo');
+        const d = await res.json();
+        billNo = (d && d.billNo) ? d.billNo : makeFallbackId();
+      } catch (e) {
+        billNo = makeFallbackId();
+      }
+      el.textContent = billNo;
+    }
 
-// ══════════════════════════════════════════
-// MEDICINE MASTER
-// ══════════════════════════════════════════
-const MEDS = [
-];
+    // ══════════════════════════════════════════
+    // CLOCK
+    // ══════════════════════════════════════════
+    function tick() {
+      document.getElementById('clock').textContent =
+        new Date().toLocaleTimeString('en-IN', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    }
+    setInterval(tick, 1000); tick();
+    document.getElementById('todayDate').textContent =
+      new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-const PATIENTS = [
-];
+    // ══════════════════════════════════════════
+    // TARGET
+    // ══════════════════════════════════════════
+    function updateTarget() {
+      const pct = Math.min(100, Math.round((billsDone / targetBills) * 100));
+      document.getElementById('progFill').style.width = pct + '%';
+      document.getElementById('progPct').textContent = pct + '%';
+      document.getElementById('bdone').textContent = billsDone;
+      document.getElementById('btarget').textContent = targetBills;
+      document.getElementById('targetLbl').textContent = targetBills + ' Bills';
+      document.getElementById('temoji').textContent = pct >= 100 ? '🏆' : pct >= 75 ? '🔥' : pct >= 50 ? '⚡' : '📋';
 
-// ══════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════
-let billNo  = null;
-let billsDone = parseInt(localStorage.getItem('sahyog_done_today') || '0');
-const TODAY = new Date().toLocaleDateString('en-IN');
-if (localStorage.getItem('sahyog_date') !== TODAY) {
-  localStorage.setItem('sahyog_date', TODAY);
-  billsDone = 0;
-  localStorage.setItem('sahyog_done_today','0');
-}
-let targetBills = parseInt(localStorage.getItem('sahyog_target') || '100');
-let recent = [];
-let rid = 0;
-let upFile = "";       // file name for display
-let upBase64 = "";     // base64 data to send
-let upMime = "";       // mime type
+      if (billsDone === targetBills && billsDone > 0) {
+        targetBills += 50;
+        localStorage.setItem('sahyog_target', targetBills);
+        updateTarget();
+        showAch('🏆', 'Target Complete!', `New target: ${targetBills} bills!`);
+      } else if (billsDone === Math.floor(targetBills * 0.5) && billsDone > 0) {
+        showAch('⚡', 'Halfway Done!', `${billsDone} bills complete! 💪`);
+      }
+    }
 
-// ══════════════════════════════════════════
-// BILL ID — Sheets se ya timestamp fallback
-// ══════════════════════════════════════════
-function makeFallbackId() {
-  const n = new Date();
-  const dd = String(n.getDate()).padStart(2,'0');
-  const mo = String(n.getMonth()+1).padStart(2,'0');
-  const hh = String(n.getHours()).padStart(2,'0');
-  const mm = String(n.getMinutes()).padStart(2,'0');
-  const rr = String(Math.floor(Math.random()*90)+10);
-  return `${dd}${mo}-${hh}${mm}-${rr}`;
-}
+    function showAch(e, t, s) {
+      document.getElementById('acho').textContent = e;
+      document.getElementById('acht').textContent = t;
+      document.getElementById('achs').textContent = s;
+      const p = document.getElementById('achpop');
+      p.classList.add('show');
+      setTimeout(() => p.classList.remove('show'), 4000);
+    }
 
-async function fetchNextBillNo() {
-  const el = document.getElementById('billNoDisp');
-  el.textContent = '...';
-  if (SHEETS_URL.includes('YOUR_SCRIPT')) {
-    billNo = makeFallbackId();
-    el.textContent = billNo; return;
-  }
-  try {
-    const res = await fetch(SHEETS_URL + '?action=getNextBillNo');
-    const d = await res.json();
-    billNo = (d && d.billNo) ? d.billNo : makeFallbackId();
-  } catch(e) {
-    billNo = makeFallbackId();
-  }
-  el.textContent = billNo;
-}
-
-// ══════════════════════════════════════════
-// CLOCK
-// ══════════════════════════════════════════
-function tick() {
-  document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('en-IN',{hour12:false,hour:'2-digit',minute:'2-digit'});
-}
-setInterval(tick,1000); tick();
-document.getElementById('todayDate').textContent =
-  new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-
-// ══════════════════════════════════════════
-// TARGET
-// ══════════════════════════════════════════
-function updateTarget() {
-  const pct = Math.min(100, Math.round((billsDone/targetBills)*100));
-  document.getElementById('progFill').style.width = pct+'%';
-  document.getElementById('progPct').textContent  = pct+'%';
-  document.getElementById('bdone').textContent    = billsDone;
-  document.getElementById('btarget').textContent  = targetBills;
-  document.getElementById('targetLbl').textContent= targetBills+' Bills';
-  document.getElementById('temoji').textContent   = pct>=100?'🏆':pct>=75?'🔥':pct>=50?'⚡':'📋';
-
-  if (billsDone === targetBills && billsDone > 0) {
-    targetBills += 50;
-    localStorage.setItem('sahyog_target', targetBills);
-    updateTarget();
-    showAch('🏆','Target Complete!',`New target: ${targetBills} bills!`);
-  } else if (billsDone === Math.floor(targetBills*0.5) && billsDone > 0) {
-    showAch('⚡','Halfway Done!',`${billsDone} bills complete! 💪`);
-  }
-}
-
-function showAch(e,t,s) {
-  document.getElementById('acho').textContent = e;
-  document.getElementById('acht').textContent = t;
-  document.getElementById('achs').textContent = s;
-  const p = document.getElementById('achpop');
-  p.classList.add('show');
-  setTimeout(()=>p.classList.remove('show'), 4000);
-}
-
-// ══════════════════════════════════════════
-// QUICK MEDS
-// ══════════════════════════════════════════
-document.getElementById('qbtns').innerHTML = MEDS.slice(0,10).map(m=>
-  `<button class="qbtn" ontouchend="quickAdd(event,'${m.n}',${m.mrp},${m.tps},'${m.u}')"
+    // ══════════════════════════════════════════
+    // QUICK MEDS
+    // ══════════════════════════════════════════
+    document.getElementById('qbtns').innerHTML = MEDS.slice(0, 10).map(m =>
+      `<button class="qbtn" ontouchend="quickAdd(event,'${m.n}',${m.mrp},${m.tps},'${m.u}')"
     onclick="quickAdd(event,'${m.n}',${m.mrp},${m.tps},'${m.u}')">${m.n}</button>`
-).join('');
+    ).join('');
 
-function quickAdd(e, name, mrp, tps, u) {
-  e.preventDefault();
-  addRow({n:name, mrp, tps, u});
-}
+    function quickAdd(e, name, mrp, tps, u) {
+      e.preventDefault();
+      addRow({ n: name, mrp, tps, u });
+    }
 
-// ══════════════════════════════════════════
-// MEDICINE ROWS — card style
-// ══════════════════════════════════════════
-function addRow(pre={}) {
-  const id = ++rid;
-  const div = document.createElement('div');
-  div.className = 'med-card';
-  div.id = 'mc'+id;
+    // ══════════════════════════════════════════
+    // MEDICINE ROWS — card style
+    // ══════════════════════════════════════════
+    function addRow(pre = {}) {
+      const id = ++rid;
+      const div = document.createElement('div');
+      div.className = 'med-card';
+      div.id = 'mc' + id;
 
-  const units = ['Tablet','Strip','Capsule','Box','Bottle','Sachet'];
-  const unitOpts = units.map(u=>`<option ${(pre.u||'Tablet')===u?'selected':''}>${u}</option>`).join('');
+      const units = ['Tablet', 'Strip', 'Capsule', 'Box', 'Bottle', 'Sachet'];
+      const unitOpts = units.map(u => `<option ${(pre.u || 'Tablet') === u ? 'selected' : ''}>${u}</option>`).join('');
 
-  div.innerHTML = `
+      div.innerHTML = `
     <div class="med-card-top">
       <div class="med-num">${id}</div>
       <div class="med-name-wrap acw">
-        <input class="inp" id="mn${id}" placeholder="Medicine name..." value="${pre.n||''}"
+        <input class="inp" id="mn${id}" placeholder="Medicine name..." value="${pre.n || ''}"
           autocomplete="off" style="border-radius:8px; padding:9px 12px; font-size:14px;"
           oninput="acMed(this.value,${id})"
           onblur="setTimeout(()=>closeAc('ac${id}'),200)">
@@ -741,7 +1435,7 @@ function addRow(pre={}) {
     <div class="med-card-grid">
       <div class="med-mini-field">
         <div class="med-mini-lbl">Qty</div>
-        <input class="mini-inp" id="q${id}" type="number" value="${pre.qty||1}" min="1"
+        <input class="mini-inp" id="q${id}" type="number" value="${pre.qty || 1}" min="1"
           inputmode="numeric" oninput="calcRow(${id})">
       </div>
       <div class="med-mini-field">
@@ -750,12 +1444,12 @@ function addRow(pre={}) {
       </div>
       <div class="med-mini-field">
         <div class="med-mini-lbl">MRP ₹</div>
-        <input class="mini-inp" id="m${id}" type="number" value="${pre.mrp||''}"
+        <input class="mini-inp" id="m${id}" type="number" value="${pre.mrp || ''}"
           placeholder="0" inputmode="decimal" oninput="calcRow(${id})">
       </div>
       <div class="med-mini-field">
         <div class="med-mini-lbl">Tab/Strip</div>
-        <input class="mini-inp" id="t${id}" type="number" value="${pre.tps||10}"
+        <input class="mini-inp" id="t${id}" type="number" value="${pre.tps || 10}"
           inputmode="numeric" oninput="calcRow(${id})">
       </div>
       <div class="med-mini-field" style="grid-column:2/-1; display:flex; flex-direction:column; justify-content:flex-end;">
@@ -764,241 +1458,241 @@ function addRow(pre={}) {
       </div>
     </div>
   `;
-  document.getElementById('medList').appendChild(div);
-  updateMedCount();
+      document.getElementById('medList').appendChild(div);
+      updateMedCount();
 
-  if (pre.n) {
-    calcRow(id);
-  } else {
-    setTimeout(()=>document.getElementById('mn'+id)?.focus(), 80);
-  }
-  // Scroll into view on mobile
-  setTimeout(()=>div.scrollIntoView({behavior:'smooth', block:'nearest'}), 150);
-}
+      if (pre.n) {
+        calcRow(id);
+      } else {
+        setTimeout(() => document.getElementById('mn' + id)?.focus(), 80);
+      }
+      // Scroll into view on mobile
+      setTimeout(() => div.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 150);
+    }
 
-function delRow(id) {
-  document.getElementById('mc'+id)?.remove();
-  updateMedCount();
-  calcAll();
-}
+    function delRow(id) {
+      document.getElementById('mc' + id)?.remove();
+      updateMedCount();
+      calcAll();
+    }
 
-function updateMedCount() {
-  const n = document.querySelectorAll('.med-card').length;
-  document.getElementById('medCount').textContent = n + (n===1?' item':' items');
-}
+    function updateMedCount() {
+      const n = document.querySelectorAll('.med-card').length;
+      document.getElementById('medCount').textContent = n + (n === 1 ? ' item' : ' items');
+    }
 
-function calcRow(id) {
-  const qty = parseFloat(document.getElementById('q'+id)?.value)||0;
-  const mrp = parseFloat(document.getElementById('m'+id)?.value)||0;
-  const tps = parseFloat(document.getElementById('t'+id)?.value)||1;
-  const u   = document.getElementById('u'+id)?.value||'Tablet';
-  const rate = (u==='Tablet'||u==='Capsule') ? mrp/tps : mrp;
-  const tot  = qty * rate;
-  const el = document.getElementById('rt'+id);
-  if (el) el.textContent = '₹'+tot.toFixed(0);
-  calcAll();
-}
+    function calcRow(id) {
+      const qty = parseFloat(document.getElementById('q' + id)?.value) || 0;
+      const mrp = parseFloat(document.getElementById('m' + id)?.value) || 0;
+      const tps = parseFloat(document.getElementById('t' + id)?.value) || 1;
+      const u = document.getElementById('u' + id)?.value || 'Tablet';
+      const rate = (u === 'Tablet' || u === 'Capsule') ? mrp / tps : mrp;
+      const tot = qty * rate;
+      const el = document.getElementById('rt' + id);
+      if (el) el.textContent = '₹' + tot.toFixed(0);
+      calcAll();
+    }
 
-function calcAll() {
-  let sub = 0;
-  document.querySelectorAll('.med-card').forEach(c=>{
-    const id = c.id.replace('mc','');
-    sub += parseFloat(document.getElementById('rt'+id)?.textContent?.replace('₹',''))||0;
-  });
-  const dval = parseFloat(document.getElementById('discVal').value)||0;
-  const da = discType==='pct' ? sub*(dval/100) : Math.min(dval,sub);
-  const grand = sub - da;
-  document.getElementById('subShow').textContent  = da>0 ? `Sub: ₹${sub.toFixed(0)}` : '';
-  document.getElementById('discSaved').textContent= da>0 ? `-₹${da.toFixed(0)} saved` : '';
-  document.getElementById('grandShow').textContent= '₹'+grand.toFixed(0);
-}
+    function calcAll() {
+      let sub = 0;
+      document.querySelectorAll('.med-card').forEach(c => {
+        const id = c.id.replace('mc', '');
+        sub += parseFloat(document.getElementById('rt' + id)?.textContent?.replace('₹', '')) || 0;
+      });
+      const dval = parseFloat(document.getElementById('discVal').value) || 0;
+      const da = discType === 'pct' ? sub * (dval / 100) : Math.min(dval, sub);
+      const grand = sub - da;
+      document.getElementById('subShow').textContent = da > 0 ? `Sub: ₹${sub.toFixed(0)}` : '';
+      document.getElementById('discSaved').textContent = da > 0 ? `-₹${da.toFixed(0)} saved` : '';
+      document.getElementById('grandShow').textContent = '₹' + grand.toFixed(0);
+    }
 
-// ══════════════════════════════════════════
-// DISCOUNT TYPE
-// ══════════════════════════════════════════
-function setDiscType(type) {
-  discType = type;
-  document.getElementById('discUnit').textContent = type==='pct' ? '%' : '₹';
-  document.getElementById('dTypePct').style.cssText =
-    type==='pct' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
-  document.getElementById('dTypeAmt').style.cssText =
-    type==='amt' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
-  document.getElementById('discVal').value = type==='pct' ? 10 : 0;
-  calcAll();
-}
+    // ══════════════════════════════════════════
+    // DISCOUNT TYPE
+    // ══════════════════════════════════════════
+    function setDiscType(type) {
+      discType = type;
+      document.getElementById('discUnit').textContent = type === 'pct' ? '%' : '₹';
+      document.getElementById('dTypePct').style.cssText =
+        type === 'pct' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
+      document.getElementById('dTypeAmt').style.cssText =
+        type === 'amt' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
+      document.getElementById('discVal').value = type === 'pct' ? 10 : 0;
+      calcAll();
+    }
 
-// ══════════════════════════════════════════
-// AUTOCOMPLETE
-// ══════════════════════════════════════════
-function acMed(val, id) {
-  const dd = document.getElementById('ac'+id);
-  if (!val||val.length<2) { dd.classList.remove('open'); return; }
-  const f = MEDS.filter(m=>m.n.toLowerCase().includes(val.toLowerCase())).slice(0,8);
-  if (!f.length) { dd.classList.remove('open'); return; }
-  dd.innerHTML = f.map(m=>
-    `<div class="aco" onmousedown="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')"
+    // ══════════════════════════════════════════
+    // AUTOCOMPLETE
+    // ══════════════════════════════════════════
+    function acMed(val, id) {
+      const dd = document.getElementById('ac' + id);
+      if (!val || val.length < 2) { dd.classList.remove('open'); return; }
+      const f = MEDS.filter(m => m.n.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
+      if (!f.length) { dd.classList.remove('open'); return; }
+      dd.innerHTML = f.map(m =>
+        `<div class="aco" onmousedown="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')"
       ontouchend="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')">
       <span>${m.n}</span><span class="xm">₹${m.mrp}</span>
     </div>`
-  ).join('');
-  dd.classList.add('open');
-}
+      ).join('');
+      dd.classList.add('open');
+    }
 
-function fillMed(id, name, mrp, tps, u) {
-  document.getElementById('mn'+id).value = name;
-  document.getElementById('m'+id).value  = mrp;
-  document.getElementById('t'+id).value  = tps;
-  document.getElementById('u'+id).value  = u;
-  closeAc('ac'+id);
-  calcRow(id);
-  // on mobile focus qty
-  setTimeout(()=>{
-    const q=document.getElementById('q'+id); q?.focus(); q?.select();
-  },80);
-}
+    function fillMed(id, name, mrp, tps, u) {
+      document.getElementById('mn' + id).value = name;
+      document.getElementById('m' + id).value = mrp;
+      document.getElementById('t' + id).value = tps;
+      document.getElementById('u' + id).value = u;
+      closeAc('ac' + id);
+      calcRow(id);
+      // on mobile focus qty
+      setTimeout(() => {
+        const q = document.getElementById('q' + id); q?.focus(); q?.select();
+      }, 80);
+    }
 
-function acPat(val) {
-  const dd = document.getElementById('acPatD');
-  if (!val||val.length<2) { dd.classList.remove('open'); return; }
-  const f = PATIENTS.filter(p=>p.toLowerCase().includes(val.toLowerCase())).slice(0,6);
-  if (!f.length) { dd.classList.remove('open'); return; }
-  dd.innerHTML = f.map(p=>
-    `<div class="aco"
+    function acPat(val) {
+      const dd = document.getElementById('acPatD');
+      if (!val || val.length < 2) { dd.classList.remove('open'); return; }
+      const f = PATIENTS.filter(p => p.toLowerCase().includes(val.toLowerCase())).slice(0, 6);
+      if (!f.length) { dd.classList.remove('open'); return; }
+      dd.innerHTML = f.map(p =>
+        `<div class="aco"
       onmousedown="document.getElementById('patName').value='${p}';closeAc('acPatD')"
       ontouchend="document.getElementById('patName').value='${p}';closeAc('acPatD')">
       👤 ${p}
     </div>`
-  ).join('');
-  dd.classList.add('open');
-}
+      ).join('');
+      dd.classList.add('open');
+    }
 
-function closeAc(id) { document.getElementById(id)?.classList.remove('open'); }
+    function closeAc(id) { document.getElementById(id)?.classList.remove('open'); }
 
-// ══════════════════════════════════════════
-// UPLOAD — file ko base64 mein convert karo
-// ══════════════════════════════════════════
-function handleUp(inp) {
-  if (!inp.files[0]) return;
-  const file = inp.files[0];
-  upFile = file.name;
-  upMime = file.type || 'image/jpeg';
+    // ══════════════════════════════════════════
+    // UPLOAD — file ko base64 mein convert karo
+    // ══════════════════════════════════════════
+    function handleUp(inp) {
+      if (!inp.files[0]) return;
+      const file = inp.files[0];
+      upFile = file.name;
+      upMime = file.type || 'image/jpeg';
 
-  // UI update
-  document.getElementById('upTxt').textContent = '⏳ Loading...';
-  document.getElementById('upBox').classList.add('filled');
+      // UI update
+      document.getElementById('upTxt').textContent = '⏳ Loading...';
+      document.getElementById('upBox').classList.add('filled');
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    // e.g. "data:image/jpeg;base64,/9j/4AAQ..." — sirf base64 part chahiye
-    upBase64 = e.target.result.split(',')[1];
-    document.getElementById('upTxt').textContent = '✅ ' + upFile;
-    document.getElementById('upBox').querySelector('.upico').textContent = '✅';
-    toast('ok', 'Prescription Ready', 'Save karte waqt Drive pe upload hogi');
-  };
-  reader.onerror = function() {
-    toast('err', 'Upload Error', 'File read nahi ho paya');
-    upBase64 = ''; upFile = '';
-  };
-  reader.readAsDataURL(file);
-}
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // e.g. "data:image/jpeg;base64,/9j/4AAQ..." — sirf base64 part chahiye
+        upBase64 = e.target.result.split(',')[1];
+        document.getElementById('upTxt').textContent = '✅ ' + upFile;
+        document.getElementById('upBox').querySelector('.upico').textContent = '✅';
+        toast('ok', 'Prescription Ready', 'Save karte waqt Drive pe upload hogi');
+      };
+      reader.onerror = function () {
+        toast('err', 'Upload Error', 'File read nahi ho paya');
+        upBase64 = ''; upFile = '';
+      };
+      reader.readAsDataURL(file);
+    }
 
-// ══════════════════════════════════════════
-// BILL ACTIONS
-// ══════════════════════════════════════════
-function getItems() {
-  const items = [];
-  document.querySelectorAll('.med-card').forEach(c=>{
-    const id = c.id.replace('mc','');
-    const nm = document.getElementById('mn'+id)?.value?.trim();
-    if (!nm) return;
-    items.push({
-      name: nm,
-      qty:  parseFloat(document.getElementById('q'+id)?.value)||0,
-      unit: document.getElementById('u'+id)?.value,
-      mrp:  parseFloat(document.getElementById('m'+id)?.value)||0,
-      tps:  parseFloat(document.getElementById('t'+id)?.value)||1,
-      amt:  parseFloat(document.getElementById('rt'+id)?.textContent?.replace('₹',''))||0
-    });
-  });
-  return items;
-}
+    // ══════════════════════════════════════════
+    // BILL ACTIONS
+    // ══════════════════════════════════════════
+    function getItems() {
+      const items = [];
+      document.querySelectorAll('.med-card').forEach(c => {
+        const id = c.id.replace('mc', '');
+        const nm = document.getElementById('mn' + id)?.value?.trim();
+        if (!nm) return;
+        items.push({
+          name: nm,
+          qty: parseFloat(document.getElementById('q' + id)?.value) || 0,
+          unit: document.getElementById('u' + id)?.value,
+          mrp: parseFloat(document.getElementById('m' + id)?.value) || 0,
+          tps: parseFloat(document.getElementById('t' + id)?.value) || 1,
+          amt: parseFloat(document.getElementById('rt' + id)?.textContent?.replace('₹', '')) || 0
+        });
+      });
+      return items;
+    }
 
-async function saveBill() {
-  const pat = document.getElementById('patName').value.trim();
-  if (!pat) { toast('err','Error!','Patient name mandatory!'); document.getElementById('patName').focus(); return; }
-  const items = getItems();
-  if (!items.length) { toast('warn','Warning','Medicine add karein!'); return; }
+    async function saveBill() {
+      const pat = document.getElementById('patName').value.trim();
+      if (!pat) { toast('err', 'Error!', 'Patient name mandatory!'); document.getElementById('patName').focus(); return; }
+      const items = getItems();
+      if (!items.length) { toast('warn', 'Warning', 'Medicine add karein!'); return; }
 
-  const dval  = parseFloat(document.getElementById('discVal').value)||0;
-  const grand = parseFloat(document.getElementById('grandShow').textContent.replace('₹',''))||0;
-  const doc   = document.getElementById('docName').value.trim();
-  const mob   = document.getElementById('mobile').value.trim();
-  const now   = new Date();
-  const t     = now.toLocaleTimeString('en-IN',{hour12:false,hour:'2-digit',minute:'2-digit'});
-  const d     = now.toLocaleDateString('en-IN');
+      const dval = parseFloat(document.getElementById('discVal').value) || 0;
+      const grand = parseFloat(document.getElementById('grandShow').textContent.replace('₹', '')) || 0;
+      const doc = document.getElementById('docName').value.trim();
+      const mob = document.getElementById('mobile').value.trim();
+      const now = new Date();
+      const t = now.toLocaleTimeString('en-IN', { hour12: false, hour: '2-digit', minute: '2-digit' });
+      const d = now.toLocaleDateString('en-IN');
 
-  recent.unshift({no:billNo, patient:pat, doctor:doc, amount:grand, time:t, status:'pending'});
-  renderRecent();
-  billsDone++;
-  localStorage.setItem('sahyog_done_today', billsDone);
-  updateTarget();
+      recent.unshift({ no: billNo, patient: pat, doctor: doc, amount: grand, time: t, status: 'pending' });
+      renderRecent();
+      billsDone++;
+      localStorage.setItem('sahyog_done_today', billsDone);
+      updateTarget();
 
-  toast('info', `Bill #${billNo} Saving...`, upBase64 ? 'Prescription Drive pe upload ho rahi hai...' : 'Sheets mein save ho raha hai...');
+      toast('info', `Bill #${billNo} Saving...`, upBase64 ? 'Prescription Drive pe upload ho rahi hai...' : 'Sheets mein save ho raha hai...');
 
-  await syncSheets({
-    action:"saveBill", billId:billNo, date:d, time:t,
-    patient:pat, doctor:doc, mobile:mob,
-    discountType:discType, discountValue:dval, total:grand,
-    // Prescription Drive upload ke liye
-    prescriptionBase64: upBase64 || "",
-    prescriptionName:   upFile   || "",
-    prescriptionMime:   upMime   || "",
-    items:items.map(i=>({medicine:i.name,qty:i.qty,unit:i.unit,mrp:i.mrp,tabsPerStrip:i.tps,amount:i.amt}))
-  });
+      await syncSheets({
+        action: "saveBill", billId: billNo, date: d, time: t,
+        patient: pat, doctor: doc, mobile: mob,
+        discountType: discType, discountValue: dval, total: grand,
+        // Prescription Drive upload ke liye
+        prescriptionBase64: upBase64 || "",
+        prescriptionName: upFile || "",
+        prescriptionMime: upMime || "",
+        items: items.map(i => ({ medicine: i.name, qty: i.qty, unit: i.unit, mrp: i.mrp, tabsPerStrip: i.tps, amount: i.amt }))
+      });
 
-  toast('ok',`Bill #${billNo} Saved`,`${pat} — ₹${grand.toFixed(0)}`);
-  fetchNextBillNo();
-}
+      toast('ok', `Bill #${billNo} Saved`, `${pat} — ₹${grand.toFixed(0)}`);
+      fetchNextBillNo();
+    }
 
-function newBill() {
-  document.getElementById('patName').value = '';
-  document.getElementById('docName').value = '';
-  document.getElementById('mobile').value  = '';
-  document.getElementById('discVal').value = '10';
-  document.getElementById('medList').innerHTML = '';
-  document.getElementById('grandShow').textContent = '₹0';
-  document.getElementById('subShow').textContent   = '';
-  document.getElementById('discSaved').textContent  = '';
-  document.getElementById('upTxt').textContent = 'Upload / Camera';
-  document.getElementById('upBox').classList.remove('filled');
-  document.getElementById('upBox').querySelector('.upico').textContent = '📋';
-  upFile=''; upBase64=''; upMime=''; rid=0;
-  setDiscType('pct');
-  updateMedCount();
-  addRow();
-  document.getElementById('patName').focus();
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+    function newBill() {
+      document.getElementById('patName').value = '';
+      document.getElementById('docName').value = '';
+      document.getElementById('mobile').value = '';
+      document.getElementById('discVal').value = '10';
+      document.getElementById('medList').innerHTML = '';
+      document.getElementById('grandShow').textContent = '₹0';
+      document.getElementById('subShow').textContent = '';
+      document.getElementById('discSaved').textContent = '';
+      document.getElementById('upTxt').textContent = 'Upload / Camera';
+      document.getElementById('upBox').classList.remove('filled');
+      document.getElementById('upBox').querySelector('.upico').textContent = '📋';
+      upFile = ''; upBase64 = ''; upMime = ''; rid = 0;
+      setDiscType('pct');
+      updateMedCount();
+      addRow();
+      document.getElementById('patName').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-function printBill() {
-  const pat = document.getElementById('patName').value.trim();
-  if (!pat) { toast('err','Error!','Patient name mandatory!'); return; }
-  const items = getItems();
-  const doc   = document.getElementById('docName').value.trim();
-  const dval  = parseFloat(document.getElementById('discVal').value)||0;
-  const grand = document.getElementById('grandShow').textContent;
-  const sub   = items.reduce((s,i)=>s+i.amt, 0);
-  const da    = discType==='pct' ? sub*(dval/100) : Math.min(dval,sub);
-  const discLabel = discType==='pct' ? `${dval}%` : `₹${dval}`;
-  const today = new Date().toLocaleDateString('en-IN');
+    function printBill() {
+      const pat = document.getElementById('patName').value.trim();
+      if (!pat) { toast('err', 'Error!', 'Patient name mandatory!'); return; }
+      const items = getItems();
+      const doc = document.getElementById('docName').value.trim();
+      const dval = parseFloat(document.getElementById('discVal').value) || 0;
+      const grand = document.getElementById('grandShow').textContent;
+      const sub = items.reduce((s, i) => s + i.amt, 0);
+      const da = discType === 'pct' ? sub * (dval / 100) : Math.min(dval, sub);
+      const discLabel = discType === 'pct' ? `${dval}%` : `₹${dval}`;
+      const today = new Date().toLocaleDateString('en-IN');
 
-  const rows = items.map(i=>{
-    const us = {Tablet:'T',Strip:'S',Capsule:'C',Box:'Bx',Bottle:'Btl',Sachet:'Sc'}[i.unit]||i.unit[0];
-    const nm = (i.name.length>14 ? i.name.slice(0,14) : i.name).padEnd(14,' ');
-    return `<div class="rrow"><span>${nm}</span><span>${i.qty}${us} ₹${i.amt.toFixed(0)}</span></div>`;
-  }).join('');
+      const rows = items.map(i => {
+        const us = { Tablet: 'T', Strip: 'S', Capsule: 'C', Box: 'Bx', Bottle: 'Btl', Sachet: 'Sc' }[i.unit] || i.unit[0];
+        const nm = (i.name.length > 14 ? i.name.slice(0, 14) : i.name).padEnd(14, ' ');
+        return `<div class="rrow"><span>${nm}</span><span>${i.qty}${us} ₹${i.amt.toFixed(0)}</span></div>`;
+      }).join('');
 
-  document.getElementById('receiptEl').innerHTML = `
+      document.getElementById('receiptEl').innerHTML = `
     <div class="rc rb" style="font-size:13px;">SAHYOG MEDICAL STORE</div>
     <div class="rc" style="font-size:10px;">Manasa, Madhya Pradesh</div>
     <div class="rc" style="font-size:10px;">GSTIN: 23BUQPS8562N1ZL</div>
@@ -1007,272 +1701,282 @@ function printBill() {
     <div class="rrow"><span>Date:</span><span>${today}</span></div>
     <hr class="rdash">
     <div><b>Patient:</b> ${pat}</div>
-    ${doc?`<div><b>Doctor:</b> ${doc}</div>`:''}
+    ${doc ? `<div><b>Doctor:</b> ${doc}</div>` : ''}
     <hr class="rdash">
     <div class="rrow rb" style="font-size:10px; padding-bottom:3px; border-bottom:1px dashed #ccc; margin-bottom:3px;">
       <span>Item          </span><span>Qty  Amt</span>
     </div>
     ${rows}
     <hr class="rdash">
-    ${da>0?`<div class="rrow"><span>Subtotal</span><span>₹${sub.toFixed(0)}</span></div>
+    ${da > 0 ? `<div class="rrow"><span>Subtotal</span><span>₹${sub.toFixed(0)}</span></div>
     <div class="rrow"><span>Discount(${discLabel})</span><span>-₹${da.toFixed(0)}</span></div>
-    <hr class="rdash">`:''}
+    <hr class="rdash">`: ''}
     <div class="rrow rb" style="font-size:14px;"><span>TOTAL</span><span>${grand}</span></div>
     <hr class="rdash">
     <div class="rc" style="font-size:10px; margin-top:6px; font-weight:bold;">Thank You! 🙏</div>
     <div class="rc" style="font-size:9px;">Sahyog Medical Store, Manasa</div>
     <div style="height:14px;"></div>
   `;
-  document.getElementById('pmodal').classList.add('open');
-}
+      document.getElementById('pmodal').classList.add('open');
+    }
 
-function closePrint() { document.getElementById('pmodal').classList.remove('open'); }
+    function closePrint() { document.getElementById('pmodal').classList.remove('open'); }
 
-// ══════════════════════════════════════════
-// BLUETOOTH THERMAL PRINTER — ESC/POS
-// 58mm, Generic Chinese / RPP02N / PT-210
-// ══════════════════════════════════════════
-let btDevice = null;
-let btChar   = null;  // GATT characteristic to write to
+    // ══════════════════════════════════════════
+    // BLUETOOTH THERMAL PRINTER — ESC/POS
+    // 58mm, Generic Chinese / RPP02N / PT-210
+    // ══════════════════════════════════════════
+    let btDevice = null;
+    let btChar = null;  // GATT characteristic to write to
 
-// Known Bluetooth printer service/characteristic UUIDs
-// Most 58mm Chinese thermal printers use one of these
-const BT_PROFILES = [
-  { service: '000018f0-0000-1000-8000-00805f9b34fb',  // Generic printer service
-    char:    '00002af1-0000-1000-8000-00805f9b34fb' },
-  { service: 'e7810a71-73ae-499d-8c15-faa9aef0c3f2',  // Common Chinese thermal
-    char:    'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f' },
-  { service: '49535343-fe7d-4ae5-8fa9-9fafd205e455',  // ISSC BLE UART
-    char:    '49535343-1e4d-4bd9-ba61-23c647249616' },
-  { service: '0000ff00-0000-1000-8000-00805f9b34fb',  // FF00 common
-    char:    '0000ff02-0000-1000-8000-00805f9b34fb' },
-  { service: '0000fff0-0000-1000-8000-00805f9b34fb',  // FFF0
-    char:    '0000fff2-0000-1000-8000-00805f9b34fb' },
-];
+    // Known Bluetooth printer service/characteristic UUIDs
+    // Most 58mm Chinese thermal printers use one of these
+    const BT_PROFILES = [
+      {
+        service: '000018f0-0000-1000-8000-00805f9b34fb',  // Generic printer service
+        char: '00002af1-0000-1000-8000-00805f9b34fb'
+      },
+      {
+        service: 'e7810a71-73ae-499d-8c15-faa9aef0c3f2',  // Common Chinese thermal
+        char: 'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f'
+      },
+      {
+        service: '49535343-fe7d-4ae5-8fa9-9fafd205e455',  // ISSC BLE UART
+        char: '49535343-1e4d-4bd9-ba61-23c647249616'
+      },
+      {
+        service: '0000ff00-0000-1000-8000-00805f9b34fb',  // FF00 common
+        char: '0000ff02-0000-1000-8000-00805f9b34fb'
+      },
+      {
+        service: '0000fff0-0000-1000-8000-00805f9b34fb',  // FFF0
+        char: '0000fff2-0000-1000-8000-00805f9b34fb'
+      },
+    ];
 
-// ESC/POS byte helpers
-const ESC = 0x1B, GS = 0x1D, LF = 0x0A, HT = 0x09;
-function esc(...b) { return new Uint8Array(b); }
+    // ESC/POS byte helpers
+    const ESC = 0x1B, GS = 0x1D, LF = 0x0A, HT = 0x09;
+    function esc(...b) { return new Uint8Array(b); }
 
-// Convert string to bytes (supports Hindi via UTF-8 fallback to ASCII for thermal)
-function strBytes(str) {
-  // Thermal printers don't support Unicode — replace Hindi chars with spaces
-  const ascii = str.replace(/[^\x00-\x7F]/g, ' ');
-  return new TextEncoder().encode(ascii);
-}
+    // Convert string to bytes (supports Hindi via UTF-8 fallback to ASCII for thermal)
+    function strBytes(str) {
+      // Thermal printers don't support Unicode — replace Hindi chars with spaces
+      const ascii = str.replace(/[^\x00-\x7F]/g, ' ');
+      return new TextEncoder().encode(ascii);
+    }
 
-// Center align a string in 32 char width (58mm = ~32 chars)
-function center(str, width=32) {
-  const s = str.replace(/[^\x00-\x7F]/g, ' ');
-  if (s.length >= width) return s.slice(0, width);
-  const pad = Math.floor((width - s.length) / 2);
-  return ' '.repeat(pad) + s;
-}
+    // Center align a string in 32 char width (58mm = ~32 chars)
+    function center(str, width = 32) {
+      const s = str.replace(/[^\x00-\x7F]/g, ' ');
+      if (s.length >= width) return s.slice(0, width);
+      const pad = Math.floor((width - s.length) / 2);
+      return ' '.repeat(pad) + s;
+    }
 
-// Left + right align two strings in 32 chars
-function lrPad(left, right, width=32) {
-  const l = left.replace(/[^\x00-\x7F]/g, ' ');
-  const r = right.replace(/[^\x00-\x7F]/g, ' ');
-  const space = width - l.length - r.length;
-  return l + (space > 0 ? ' '.repeat(space) : ' ') + r;
-}
+    // Left + right align two strings in 32 chars
+    function lrPad(left, right, width = 32) {
+      const l = left.replace(/[^\x00-\x7F]/g, ' ');
+      const r = right.replace(/[^\x00-\x7F]/g, ' ');
+      const space = width - l.length - r.length;
+      return l + (space > 0 ? ' '.repeat(space) : ' ') + r;
+    }
 
-function dashes(w=32) { return '-'.repeat(w); }
+    function dashes(w = 32) { return '-'.repeat(w); }
 
-// Build complete ESC/POS byte array for the bill
-function buildEscPos(data) {
-  const { pat, doc, items, sub, da, grand, discLabel, today, billNo } = data;
-  const lines = [];
+    // Build complete ESC/POS byte array for the bill
+    function buildEscPos(data) {
+      const { pat, doc, items, sub, da, grand, discLabel, today, billNo } = data;
+      const lines = [];
 
-  const push = (arr) => lines.push(arr);
-  const txt  = (s)   => lines.push(strBytes(s + '\n'));
+      const push = (arr) => lines.push(arr);
+      const txt = (s) => lines.push(strBytes(s + '\n'));
 
-  // INIT printer
-  push(esc(ESC, 0x40));           // Initialize
-  push(esc(ESC, 0x61, 0x01));     // Center align
+      // INIT printer
+      push(esc(ESC, 0x40));           // Initialize
+      push(esc(ESC, 0x61, 0x01));     // Center align
 
-  // Header — double height for shop name
-  push(esc(ESC, 0x21, 0x10));     // Double height
-  txt('SAHYOG MEDICAL STORE');
-  push(esc(ESC, 0x21, 0x00));     // Normal size
-  txt('Manasa, Madhya Pradesh');
-  txt('GSTIN: 23BUQPS8562N1ZL');
-  txt(dashes());
+      // Header — double height for shop name
+      push(esc(ESC, 0x21, 0x10));     // Double height
+      txt('SAHYOG MEDICAL STORE');
+      push(esc(ESC, 0x21, 0x00));     // Normal size
+      txt('Manasa, Madhya Pradesh');
+      txt('GSTIN: 23BUQPS8562N1ZL');
+      txt(dashes());
 
-  // Bill info — left align
-  push(esc(ESC, 0x61, 0x00));
-  txt(lrPad('Bill No: #' + billNo, today));
-  txt('Patient: ' + pat);
-  if (doc) txt('Doctor : ' + doc);
-  txt(dashes());
+      // Bill info — left align
+      push(esc(ESC, 0x61, 0x00));
+      txt(lrPad('Bill No: #' + billNo, today));
+      txt('Patient: ' + pat);
+      if (doc) txt('Doctor : ' + doc);
+      txt(dashes());
 
-  // Items header
-  push(esc(ESC, 0x45, 0x01));     // Bold ON
-  txt(lrPad('Item (Qty/Unit)', 'Amt'));
-  push(esc(ESC, 0x45, 0x00));     // Bold OFF
-  txt(dashes());
+      // Items header
+      push(esc(ESC, 0x45, 0x01));     // Bold ON
+      txt(lrPad('Item (Qty/Unit)', 'Amt'));
+      push(esc(ESC, 0x45, 0x00));     // Bold OFF
+      txt(dashes());
 
-  // Each medicine
-  items.forEach(i => {
-    const us = {Tablet:'T',Strip:'S',Capsule:'Cap',Box:'Box',Bottle:'Btl',Sachet:'Sct'}[i.unit] || i.unit[0];
-    const nm = i.name.length > 18 ? i.name.slice(0, 17) + '.' : i.name;
-    const qtyAmt = `${i.qty}${us}  Rs.${i.amt.toFixed(0)}`;
-    txt(lrPad(nm, qtyAmt));
-  });
+      // Each medicine
+      items.forEach(i => {
+        const us = { Tablet: 'T', Strip: 'S', Capsule: 'Cap', Box: 'Box', Bottle: 'Btl', Sachet: 'Sct' }[i.unit] || i.unit[0];
+        const nm = i.name.length > 18 ? i.name.slice(0, 17) + '.' : i.name;
+        const qtyAmt = `${i.qty}${us}  Rs.${i.amt.toFixed(0)}`;
+        txt(lrPad(nm, qtyAmt));
+      });
 
-  txt(dashes());
+      txt(dashes());
 
-  // Discount + Total
-  if (da > 0) {
-    txt(lrPad('Subtotal', 'Rs.' + sub.toFixed(0)));
-    txt(lrPad('Discount (' + discLabel + ')', '-Rs.' + da.toFixed(0)));
-    txt(dashes());
-  }
+      // Discount + Total
+      if (da > 0) {
+        txt(lrPad('Subtotal', 'Rs.' + sub.toFixed(0)));
+        txt(lrPad('Discount (' + discLabel + ')', '-Rs.' + da.toFixed(0)));
+        txt(dashes());
+      }
 
-  // GRAND TOTAL — large font
-  push(esc(ESC, 0x61, 0x01));     // Center
-  push(esc(ESC, 0x21, 0x30));     // Double width + height
-  txt('TOTAL: Rs.' + grand.toFixed(0));
-  push(esc(ESC, 0x21, 0x00));     // Normal
-  push(esc(ESC, 0x61, 0x01));     // Center
+      // GRAND TOTAL — large font
+      push(esc(ESC, 0x61, 0x01));     // Center
+      push(esc(ESC, 0x21, 0x30));     // Double width + height
+      txt('TOTAL: Rs.' + grand.toFixed(0));
+      push(esc(ESC, 0x21, 0x00));     // Normal
+      push(esc(ESC, 0x61, 0x01));     // Center
 
-  txt(dashes());
-  txt('Thank You!');
-  txt('Sahyog Medical, Manasa');
+      txt(dashes());
+      txt('Thank You!');
+      txt('Sahyog Medical, Manasa');
 
-  // Feed + cut
-  push(esc(LF, LF, LF, LF));     // Feed 4 lines
-  push(esc(GS, 0x56, 0x42, 0x00)); // Full cut (if supported)
+      // Feed + cut
+      push(esc(LF, LF, LF, LF));     // Feed 4 lines
+      push(esc(GS, 0x56, 0x42, 0x00)); // Full cut (if supported)
 
-  // Merge all into single Uint8Array
-  const total = lines.reduce((n, a) => n + a.length, 0);
-  const buf = new Uint8Array(total);
-  let off = 0;
-  lines.forEach(a => { buf.set(a, off); off += a.length; });
-  return buf;
-}
+      // Merge all into single Uint8Array
+      const total = lines.reduce((n, a) => n + a.length, 0);
+      const buf = new Uint8Array(total);
+      let off = 0;
+      lines.forEach(a => { buf.set(a, off); off += a.length; });
+      return buf;
+    }
 
-// Connect to Bluetooth printer
-async function btConnect() {
-  if (!navigator.bluetooth) {
-    toast('err', 'Bluetooth Error', 'Chrome Android pe chalao, HTTPS chahiye');
-    return false;
-  }
-  try {
-    toast('info', 'Bluetooth', 'Printer dhundh raha hai...');
-
-    // Try each known profile
-    let connected = false;
-    for (const profile of BT_PROFILES) {
+    // Connect to Bluetooth printer
+    async function btConnect() {
+      if (!navigator.bluetooth) {
+        toast('err', 'Bluetooth Error', 'Chrome Android pe chalao, HTTPS chahiye');
+        return false;
+      }
       try {
-        btDevice = await navigator.bluetooth.requestDevice({
-          acceptAllDevices: true,
-          optionalServices: BT_PROFILES.map(p => p.service)
-        });
-        const server = await btDevice.gatt.connect();
+        toast('info', 'Bluetooth', 'Printer dhundh raha hai...');
 
-        for (const p of BT_PROFILES) {
+        // Try each known profile
+        let connected = false;
+        for (const profile of BT_PROFILES) {
           try {
-            const svc = await server.getPrimaryService(p.service);
-            btChar    = await svc.getCharacteristic(p.char);
-            connected = true;
+            btDevice = await navigator.bluetooth.requestDevice({
+              acceptAllDevices: true,
+              optionalServices: BT_PROFILES.map(p => p.service)
+            });
+            const server = await btDevice.gatt.connect();
+
+            for (const p of BT_PROFILES) {
+              try {
+                const svc = await server.getPrimaryService(p.service);
+                btChar = await svc.getCharacteristic(p.char);
+                connected = true;
+                break;
+              } catch (e) { /* try next profile */ }
+            }
+            break; // device selected, stop asking
+          } catch (e) {
+            if (e.name === 'NotFoundError') return false; // user cancelled
             break;
-          } catch(e) { /* try next profile */ }
+          }
         }
-        break; // device selected, stop asking
-      } catch(e) {
-        if (e.name === 'NotFoundError') return false; // user cancelled
-        break;
+
+        if (!connected || !btChar) {
+          // Last fallback — try writeValue on any writable char
+          toast('warn', 'Warning', 'Standard profile nahi mila, generic try kar raha...');
+          return false;
+        }
+
+        btDevice.addEventListener('gattserverdisconnected', () => {
+          btChar = null; btDevice = null;
+          setBtStatus('disconnected');
+          toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
+        });
+
+        setBtStatus('connected');
+        toast('ok', 'Printer Connected! ✅', btDevice.name || 'Thermal Printer');
+        return true;
+      } catch (e) {
+        toast('err', 'Connect Failed', e.message || 'Pairing nahi ho paya');
+        return false;
       }
     }
 
-    if (!connected || !btChar) {
-      // Last fallback — try writeValue on any writable char
-      toast('warn', 'Warning', 'Standard profile nahi mila, generic try kar raha...');
-      return false;
+    function setBtStatus(status) {
+      const btn = document.getElementById('btPrintBtn');
+      btn.classList.remove('connected', 'printing');
+      if (status === 'connected') { btn.classList.add('connected'); btn.textContent = '🖨️'; }
+      if (status === 'printing') { btn.classList.add('printing'); btn.textContent = '⏳'; }
+      if (status === 'disconnected') { btn.textContent = '🖨️'; }
     }
 
-    btDevice.addEventListener('gattserverdisconnected', () => {
-      btChar = null; btDevice = null;
-      setBtStatus('disconnected');
-      toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
-    });
+    // Write bytes in chunks (BLE MTU is usually 20 bytes, but most printers accept 100-512)
+    async function writeChunked(char, data, chunkSize = 100) {
+      for (let i = 0; i < data.length; i += chunkSize) {
+        const chunk = data.slice(i, i + chunkSize);
+        await char.writeValue(chunk);
+        await new Promise(r => setTimeout(r, 30)); // small delay between chunks
+      }
+    }
 
-    setBtStatus('connected');
-    toast('ok', 'Printer Connected! ✅', btDevice.name || 'Thermal Printer');
-    return true;
-  } catch(e) {
-    toast('err', 'Connect Failed', e.message || 'Pairing nahi ho paya');
-    return false;
-  }
-}
+    // Main BT print function — called from button
+    async function btPrint() {
+      const pat = document.getElementById('patName').value.trim();
+      if (!pat) { toast('err', 'Error!', 'Patient name mandatory!'); return; }
+      const items = getItems();
+      if (!items.length) { toast('warn', 'Warning', 'Medicine add karein!'); return; }
 
-function setBtStatus(status) {
-  const btn = document.getElementById('btPrintBtn');
-  btn.classList.remove('connected', 'printing');
-  if (status === 'connected') { btn.classList.add('connected'); btn.textContent = '🖨️'; }
-  if (status === 'printing')  { btn.classList.add('printing');  btn.textContent = '⏳'; }
-  if (status === 'disconnected') { btn.textContent = '🖨️'; }
-}
+      // Connect if not already connected
+      if (!btChar) {
+        const ok = await btConnect();
+        if (!ok) return;
+      }
 
-// Write bytes in chunks (BLE MTU is usually 20 bytes, but most printers accept 100-512)
-async function writeChunked(char, data, chunkSize=100) {
-  for (let i = 0; i < data.length; i += chunkSize) {
-    const chunk = data.slice(i, i + chunkSize);
-    await char.writeValue(chunk);
-    await new Promise(r => setTimeout(r, 30)); // small delay between chunks
-  }
-}
+      // Build bill data
+      const dval = parseFloat(document.getElementById('discVal').value) || 0;
+      const sub = items.reduce((s, i) => s + i.amt, 0);
+      const da = discType === 'pct' ? sub * (dval / 100) : Math.min(dval, sub);
+      const grand = sub - da;
+      const discLabel = discType === 'pct' ? `${dval}%` : `Rs.${dval}`;
+      const doc = document.getElementById('docName').value.trim();
+      const today = new Date().toLocaleDateString('en-IN');
 
-// Main BT print function — called from button
-async function btPrint() {
-  const pat = document.getElementById('patName').value.trim();
-  if (!pat) { toast('err', 'Error!', 'Patient name mandatory!'); return; }
-  const items = getItems();
-  if (!items.length) { toast('warn', 'Warning', 'Medicine add karein!'); return; }
+      try {
+        setBtStatus('printing');
+        toast('info', 'Printing...', 'Bill printer pe ja raha hai');
 
-  // Connect if not already connected
-  if (!btChar) {
-    const ok = await btConnect();
-    if (!ok) return;
-  }
+        const bytes = buildEscPos({ pat, doc, items, sub, da, grand, discLabel, today, billNo });
+        await writeChunked(btChar, bytes);
 
-  // Build bill data
-  const dval  = parseFloat(document.getElementById('discVal').value) || 0;
-  const sub   = items.reduce((s, i) => s + i.amt, 0);
-  const da    = discType === 'pct' ? sub * (dval/100) : Math.min(dval, sub);
-  const grand = sub - da;
-  const discLabel = discType === 'pct' ? `${dval}%` : `Rs.${dval}`;
-  const doc   = document.getElementById('docName').value.trim();
-  const today = new Date().toLocaleDateString('en-IN');
+        setBtStatus('connected');
+        toast('ok', 'Print Done! ✅', `Bill #${billNo} — ${pat}`);
+        closePrint();
+      } catch (e) {
+        setBtStatus('disconnected');
+        btChar = null;
+        toast('err', 'Print Failed', 'Dobara try karo: ' + (e.message || ''));
+      }
+    }
 
-  try {
-    setBtStatus('printing');
-    toast('info', 'Printing...', 'Bill printer pe ja raha hai');
-
-    const bytes = buildEscPos({ pat, doc, items, sub, da, grand, discLabel, today, billNo });
-    await writeChunked(btChar, bytes);
-
-    setBtStatus('connected');
-    toast('ok', 'Print Done! ✅', `Bill #${billNo} — ${pat}`);
-    closePrint();
-  } catch(e) {
-    setBtStatus('disconnected');
-    btChar = null;
-    toast('err', 'Print Failed', 'Dobara try karo: ' + (e.message || ''));
-  }
-}
-
-// ══════════════════════════════════════════
-// RECENT BILLS
-// ══════════════════════════════════════════
-function renderRecent() {
-  const c = document.getElementById('recentList');
-  if (!recent.length) {
-    c.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>';
-    return;
-  }
-  c.innerHTML = recent.slice(0,10).map(b=>`
+    // ══════════════════════════════════════════
+    // RECENT BILLS
+    // ══════════════════════════════════════════
+    function renderRecent() {
+      const c = document.getElementById('recentList');
+      if (!recent.length) {
+        c.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>';
+        return;
+      }
+      c.innerHTML = recent.slice(0, 10).map(b => `
     <div class="brow">
       <div class="bdot ${b.status}"></div>
       <div class="bno">#${b.no}</div>
@@ -1280,45 +1984,45 @@ function renderRecent() {
       <div class="btime">${b.time}</div>
       <div class="bamt">₹${b.amount.toFixed(0)}</div>
     </div>`).join('');
-}
+    }
 
-// ══════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════
-function toast(type, title, msg) {
-  const w = document.getElementById('toastWrap');
-  const d = document.createElement('div');
-  d.className = `toast ${type}`;
-  const icons = {ok:'✅',err:'❌',warn:'⚠️',info:'ℹ️'};
-  d.innerHTML = `<div class="ti">${icons[type]||'ℹ️'}</div>
+    // ══════════════════════════════════════════
+    // TOAST
+    // ══════════════════════════════════════════
+    function toast(type, title, msg) {
+      const w = document.getElementById('toastWrap');
+      const d = document.createElement('div');
+      d.className = `toast ${type}`;
+      const icons = { ok: '✅', err: '❌', warn: '⚠️', info: 'ℹ️' };
+      d.innerHTML = `<div class="ti">${icons[type] || 'ℹ️'}</div>
     <div><div class="tt">${title}</div><div class="tm">${msg}</div></div>`;
-  w.appendChild(d);
-  setTimeout(()=>d.remove(), 3500);
-}
+      w.appendChild(d);
+      setTimeout(() => d.remove(), 3500);
+    }
 
-// ══════════════════════════════════════════
-// KEYBOARD SHORTCUTS (desktop)
-// ══════════════════════════════════════════
-document.addEventListener('keydown', e=>{
-  if (e.key==='F2') { e.preventDefault(); newBill(); }
-  if (e.key==='F3') { e.preventDefault(); addRow(); }
-  if (e.key==='F4') { e.preventDefault(); printBill(); }
-  if (e.altKey && e.key.toLowerCase()==='s') { e.preventDefault(); saveBill(); }
-  if (e.key==='Escape') closePrint();
-});
+    // ══════════════════════════════════════════
+    // KEYBOARD SHORTCUTS (desktop)
+    // ══════════════════════════════════════════
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F2') { e.preventDefault(); newBill(); }
+      if (e.key === 'F3') { e.preventDefault(); addRow(); }
+      if (e.key === 'F4') { e.preventDefault(); printBill(); }
+      if (e.altKey && e.key.toLowerCase() === 's') { e.preventDefault(); saveBill(); }
+      if (e.key === 'Escape') closePrint();
+    });
 
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-setDiscType('pct');
-addRow();
-renderRecent();
-updateTarget();
-fetchNextBillNo();
-setTimeout(()=>toast('info','Sahyog Medical','Ready! Medicine add karein.'), 700);
-</script>
+    // ══════════════════════════════════════════
+    // INIT
+    // ══════════════════════════════════════════
+    setDiscType('pct');
+    addRow();
+    renderRecent();
+    updateTarget();
+    fetchNextBillNo();
+    setTimeout(() => toast('info', 'Sahyog Medical', 'Ready! Medicine add karein.'), 700);
+  </script>
 
-<!--
+  <!--
 ══════════════════════════════════════════════════
   GOOGLE APPS SCRIPT — COMPLETE CODE
   (Extensions → Apps Script → Paste karo)
@@ -1357,10 +2061,23 @@ function doPost(e) {
     // ── PRESCRIPTION → GOOGLE DRIVE UPLOAD ──
     if (data.prescriptionBase64 && data.prescriptionBase64.length > 0) {
       try {
+        if (DRIVE_FOLDER_ID === "YOUR_DRIVE_FOLDER_ID_HERE") {
+          throw new Error("Folder ID set nahi kiya! Code mein apna Drive Folder ID daalein.");
+        }
         const folder   = DriveApp.getFolderById(DRIVE_FOLDER_ID);
         const bytes    = Utilities.base64Decode(data.prescriptionBase64);
+        
+        // Proper extension capture
+        let ext = ".jpg";
+        if (data.prescriptionName && data.prescriptionName.includes('.')) {
+          ext = "." + data.prescriptionName.split('.').pop();
+        } else if (data.prescriptionMime === "application/pdf") {
+          ext = ".pdf";
+        }
+        
         const blob     = Utilities.newBlob(bytes, data.prescriptionMime || "image/jpeg",
-                           `Bill${data.billId}_${data.patient}.jpg`);
+                           `Bill${data.billId}_${data.patient}${ext}`);
+                           
         const file     = folder.createFile(blob);
         file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
         driveLink = file.getUrl();   // ← Yahi link Sheets mein jayegi
@@ -1470,4 +2187,5 @@ DRIVE SETUP:
 ══════════════════════════════════════════════════
 -->
 </body>
+
 </html>
