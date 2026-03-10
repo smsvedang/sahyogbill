@@ -2,373 +2,579 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sahyog Medical — Billing</title>
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Sahyog Medical</title>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f5f7fa;
+  --bg: #f0f4f8;
   --white: #ffffff;
-  --border: #e2e6ed;
-  --border2: #d0d7e2;
+  --border: #dde3ec;
+  --border2: #c8d2e0;
   --text: #1a2332;
   --text2: #5a6a7e;
   --text3: #9aa5b4;
   --accent: #1a73e8;
   --accent-light: #e8f0fe;
-  --accent2: #0f9d58;
-  --accent2-light: #e6f4ea;
+  --accent-dark: #1557b0;
+  --green: #0f9d58;
+  --green-light: #e6f4ea;
   --danger: #d93025;
   --danger-light: #fce8e6;
   --warn: #f9ab00;
-  --radius: 10px;
-  --shadow: 0 1px 6px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --radius: 12px;
+  --sh: 0 2px 8px rgba(0,0,0,0.08);
+  --sh2: 0 4px 20px rgba(0,0,0,0.12);
+  --header-h: 56px;
+  --target-h: 52px;
+  --bottom-h: 72px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Mukta', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
 
-.header {
-  background: var(--white);
-  border-bottom: 2px solid var(--accent);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: var(--shadow);
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body {
+  font-family: 'Mukta', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior: none;
 }
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand-icon { width: 34px; height: 34px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; color: white; }
-.brand h1 { font-size: 16px; font-weight: 700; line-height: 1.1; }
-.brand small { font-size: 10px; color: var(--text3); letter-spacing: 1.2px; display: block; }
-.header-right { display: flex; align-items: center; gap: 12px; }
-.clock { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent); background: var(--accent-light); padding: 5px 12px; border-radius: 6px; font-weight: 600; }
-.billbadge { background: var(--accent); color: white; font-weight: 700; font-size: 13px; padding: 5px 14px; border-radius: 20px; }
 
-/* TARGET STRIP */
-.target-strip {
-  background: var(--white);
+/* ── HEADER ── */
+.hdr {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(26,115,232,0.3);
+}
+.hdr-left { display: flex; align-items: center; gap: 10px; }
+.hdr-ico { font-size: 22px; }
+.hdr-name { font-size: 16px; font-weight: 700; color: white; line-height: 1.1; }
+.hdr-sub { font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 1px; }
+.hdr-right { display: flex; align-items: center; gap: 8px; }
+.hdr-clock { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500; }
+.bill-badge {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-weight: 700; font-size: 12px;
+  padding: 4px 10px; border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+/* ── TARGET BAR ── */
+.target-bar {
+  position: fixed;
+  top: var(--header-h); left: 0; right: 0;
+  height: var(--target-h);
+  background: white;
   border-bottom: 1px solid var(--border);
-  padding: 10px 24px;
-  display: flex; align-items: center; gap: 16px;
+  display: flex; align-items: center;
+  padding: 0 14px; gap: 10px;
+  z-index: 190;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
-.tl { font-size: 12px; color: var(--text2); font-weight: 600; white-space: nowrap; }
-.tl strong { color: var(--text); font-size: 14px; }
-.prog-wrap { flex: 1; }
-.prog-bg { height: 10px; background: #e8edf2; border-radius: 5px; overflow: hidden; }
-.prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #0d47a1); border-radius: 5px; transition: width 0.8s ease; position: relative; }
-.prog-fill::after { content:''; position:absolute; right:0; top:0; bottom:0; width:24px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4)); animation: sh 1.8s infinite; }
-@keyframes sh { 0%,100%{opacity:0} 50%{opacity:1} }
-.tpct { font-size: 14px; font-weight: 700; color: var(--accent); min-width: 40px; text-align: right; font-family: 'JetBrains Mono', monospace; }
-.tcnt { font-size: 12px; color: var(--text2); white-space: nowrap; }
-.tcnt span { font-weight: 700; color: var(--text); font-family: 'JetBrains Mono', monospace; }
+.t-lbl { font-size: 12px; font-weight: 700; color: var(--text2); white-space: nowrap; }
+.t-prog { flex: 1; height: 8px; background: #e8edf2; border-radius: 4px; overflow: hidden; }
+.t-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-dark)); border-radius: 4px; transition: width 0.7s ease; }
+.t-pct { font-size: 13px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; min-width: 38px; text-align: right; }
+.t-count { font-size: 11px; color: var(--text3); white-space: nowrap; }
+.t-count b { color: var(--text); font-family: 'JetBrains Mono', monospace; }
+.t-emoji { font-size: 16px; }
 
-/* MAIN */
-.main { max-width: 980px; margin: 0 auto; padding: 16px 14px; }
-.layout { display: grid; grid-template-columns: 1fr 270px; gap: 14px; }
+/* ── SCROLL AREA ── */
+.scroll-area {
+  padding-top: calc(var(--header-h) + var(--target-h) + 12px);
+  padding-bottom: calc(var(--bottom-h) + 16px);
+  padding-left: 12px;
+  padding-right: 12px;
+  max-width: 640px;
+  margin: 0 auto;
+}
 
-/* CARD */
-.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 14px; }
-.card-head { padding: 11px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.card-title { font-size: 12px; font-weight: 700; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; display: flex; align-items: center; gap: 7px; }
-.card-title::before { content:''; width:3px; height:13px; background:var(--accent); border-radius:2px; }
-.card-body { padding: 14px 16px; }
+/* ── CARD ── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--sh);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.card-hd {
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fafbfd;
+}
+.card-ttl {
+  font-size: 12px; font-weight: 700;
+  color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 7px;
+}
+.card-ttl::before { content:''; width:3px; height:13px; background:var(--accent); border-radius:2px; flex-shrink:0; }
+.card-bd { padding: 14px; }
 
-/* FORM */
-.fr { display: grid; gap: 12px; margin-bottom: 12px; }
-.fr.c2 { grid-template-columns: 1fr 1fr; }
-.fld { display: flex; flex-direction: column; gap: 4px; }
-.lbl { font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; }
+/* ── FORM FIELDS ── */
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.lbl { display: block; font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.7px; text-transform: uppercase; margin-bottom: 5px; }
 .lbl .r { color: var(--danger); }
-.inp { border: 1.5px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-family: 'Mukta', sans-serif; font-size: 14px; color: var(--text); background: white; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; }
+.inp {
+  width: 100%; border: 1.5px solid var(--border2); border-radius: 10px;
+  padding: 11px 13px; font-family: 'Mukta', sans-serif; font-size: 15px;
+  color: var(--text); background: white; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none; appearance: none;
+  min-height: 46px;
+}
 .inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
 .inp::placeholder { color: var(--text3); }
-select.inp { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%235a6a7e' d='M1 1l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; padding-right: 24px; }
+select.inp {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%235a6a7e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 32px; cursor: pointer;
+}
 
-/* AUTOCOMPLETE */
+/* ── AUTOCOMPLETE ── */
 .acw { position: relative; }
-.acl { position: absolute; top: calc(100% + 3px); left: 0; right: 0; background: white; border: 1.5px solid var(--accent); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 999; max-height: 200px; overflow-y: auto; display: none; }
+.acl {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: white; border: 1.5px solid var(--accent);
+  border-radius: 10px; box-shadow: var(--sh2); z-index: 999;
+  max-height: 220px; overflow-y: auto; display: none;
+}
 .acl.open { display: block; }
-.aco { padding: 9px 12px; cursor: pointer; font-size: 13px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+.aco {
+  padding: 12px 14px; cursor: pointer; font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--border); transition: background 0.1s;
+  min-height: 48px;
+}
 .aco:last-child { border-bottom: none; }
-.aco:hover { background: var(--accent-light); color: var(--accent); }
-.aco .xm { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+.aco:active { background: var(--accent-light); }
+.aco .xm { font-size: 12px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
 
-/* UPLOAD */
-.upbox { border: 2px dashed var(--border2); border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fafbfc; }
-.upbox:hover { border-color: var(--accent); background: var(--accent-light); }
-.upbox.filled { border-color: var(--accent2); background: var(--accent2-light); }
+/* ── UPLOAD ── */
+.upbox {
+  border: 2px dashed var(--border2); border-radius: 10px;
+  padding: 14px; text-align: center; cursor: pointer;
+  background: #fafbfc; transition: all 0.2s; min-height: 70px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+}
+.upbox.filled { border-color: var(--green); background: var(--green-light); }
 .upbox input { display: none; }
-.upico { font-size: 20px; }
-.uptxt { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.upico { font-size: 22px; }
+.uptxt { font-size: 12px; color: var(--text2); }
 
-/* QUICK MEDS */
-.qlbl { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 6px; }
-.qbtns { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
-.qbtn { background: #f0f4ff; border: 1px solid #c5d4f5; border-radius: 6px; padding: 4px 9px; font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; font-family: 'Mukta', sans-serif; transition: all 0.15s; }
-.qbtn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+/* ── QUICK MEDS ── */
+.qlbl { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
+.qbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.qbtn {
+  background: var(--accent-light); border: 1px solid #b8d0f5;
+  border-radius: 20px; padding: 6px 12px; font-size: 13px;
+  font-weight: 600; color: var(--accent); cursor: pointer;
+  font-family: 'Mukta', sans-serif; transition: all 0.15s;
+  white-space: nowrap; min-height: 36px;
+}
+.qbtn:active { background: var(--accent); color: white; }
 
-/* MED TABLE */
-.med-wrap { overflow-x: auto; }
-.med-tbl { width: 100%; border-collapse: collapse; min-width: 640px; }
-.med-tbl th { text-align: left; padding: 7px 8px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); border-bottom: 2px solid var(--border); background: #fafbfc; }
-.med-tbl td { padding: 5px 3px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-.med-tbl tr:last-child td { border-bottom: none; }
-.med-tbl tr:hover td { background: #fafcff; }
-.tinp { border: 1px solid var(--border2); border-radius: 6px; padding: 6px 7px; font-family: 'Mukta', sans-serif; font-size: 13px; color: var(--text); background: white; outline: none; width: 100%; transition: border-color 0.15s; }
-.tinp:focus { border-color: var(--accent); }
-.rowt { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--accent2); text-align: right; padding-right: 4px; white-space: nowrap; }
-.delbtn { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 17px; padding: 3px 6px; border-radius: 4px; line-height: 1; transition: all 0.15s; }
-.delbtn:hover { background: var(--danger-light); color: var(--danger); }
+/* ── MEDICINE CARDS ── */
+.med-card {
+  background: #fafbfd; border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 8px; overflow: hidden;
+}
+.med-card-top {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px 8px;
+}
+.med-name-wrap { flex: 1; position: relative; }
+.med-num {
+  width: 24px; height: 24px; background: var(--accent); color: white;
+  border-radius: 50%; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
+}
+.med-del {
+  width: 36px; height: 36px; border: none; background: none;
+  color: var(--text3); font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; flex-shrink: 0; transition: all 0.15s;
+}
+.med-del:active { background: var(--danger-light); color: var(--danger); }
+.med-card-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px; padding: 0 12px 10px;
+}
+.med-mini-field { display: flex; flex-direction: column; gap: 3px; }
+.med-mini-lbl { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.5px; text-transform: uppercase; }
+.mini-inp {
+  border: 1px solid var(--border2); border-radius: 8px;
+  padding: 8px 8px; font-family: 'Mukta', sans-serif; font-size: 14px;
+  font-weight: 600; color: var(--text); background: white; outline: none;
+  width: 100%; text-align: center; min-height: 40px;
+  -webkit-appearance: none; transition: border-color 0.15s;
+}
+.mini-inp:focus { border-color: var(--accent); }
+select.mini-inp { padding-right: 20px; font-size: 13px; text-align: left;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath fill='%235a6a7e' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 6px center; }
+.med-amount {
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 12px 10px; gap: 6px;
+}
+.med-amt-lbl { font-size: 12px; color: var(--text3); }
+.med-amt-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--green); }
 
-/* ADD ROW */
-.addbtn { width: 100%; margin-top: 10px; padding: 9px; border: 2px dashed var(--border2); border-radius: 8px; background: #fafbfc; color: var(--accent); font-family: 'Mukta', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.addbtn:hover { border-color: var(--accent); background: var(--accent-light); }
+/* ── ADD MED BUTTON ── */
+.add-med-btn {
+  width: 100%; padding: 13px; border: 2px dashed var(--border2);
+  border-radius: 10px; background: white; color: var(--accent);
+  font-family: 'Mukta', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; display: flex;
+  align-items: center; justify-content: center; gap: 6px;
+  min-height: 50px;
+}
+.add-med-btn:active { border-color: var(--accent); background: var(--accent-light); }
 
-/* DISCOUNT + TOTAL */
-.bottom { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: end; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.discrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.discrow label { font-size: 13px; font-weight: 700; color: var(--text2); white-space: nowrap; }
-.discinp { border: 1.5px solid var(--border2); border-radius: 8px; padding: 7px 10px; font-family: 'Mukta', sans-serif; font-size: 15px; font-weight: 700; color: var(--danger); width: 80px; outline: none; text-align: center; transition: border-color 0.2s; }
-.discinp:focus { border-color: var(--danger); }
-.discamt { font-size: 12px; color: var(--text3); }
-.totalbox { text-align: right; }
-.total-lbl { font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.total-sub { font-size: 13px; color: var(--text2); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-.total-grand { font-size: 30px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+/* ── DISCOUNT + TOTAL ── */
+.disc-total-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+}
+.disc-section { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.disc-lbl { font-size: 13px; font-weight: 700; color: var(--text2); white-space: nowrap; }
+.disc-toggle {
+  display: flex; border: 1.5px solid var(--border2);
+  border-radius: 8px; overflow: hidden;
+}
+.disc-toggle button {
+  padding: 8px 14px; border: none; font-family: 'Mukta', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer; min-height: 40px; min-width: 44px;
+  transition: all 0.15s;
+}
+#dTypePct { background: var(--accent); color: white; }
+#dTypeAmt { background: white; color: var(--text2); border-left: 1px solid var(--border2); }
+.disc-val-inp {
+  border: 1.5px solid var(--border2); border-radius: 8px;
+  padding: 8px 10px; font-family: 'JetBrains Mono', monospace;
+  font-size: 16px; font-weight: 700; color: var(--danger);
+  width: 80px; outline: none; text-align: center; min-height: 44px;
+  -webkit-appearance: none;
+}
+.disc-val-inp:focus { border-color: var(--danger); }
+.disc-sym { font-size: 15px; font-weight: 700; color: var(--text2); }
+.disc-saved { font-size: 12px; color: var(--green); font-weight: 600; }
 
-/* BUTTONS */
-.actbtns { display: flex; gap: 10px; margin-top: 14px; }
-.btn { flex: 1; padding: 11px; border: none; border-radius: 8px; font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.btn-new { background: white; color: var(--danger); border: 1.5px solid var(--danger); flex: 0.6; }
-.btn-new:hover { background: var(--danger-light); }
-.btn-save { background: white; color: var(--accent); border: 1.5px solid var(--accent); }
-.btn-save:hover { background: var(--accent-light); }
-.btn-print { background: var(--accent); color: white; box-shadow: 0 3px 10px rgba(26,115,232,0.3); flex: 1.2; }
-.btn-print:hover { background: #1557b0; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(26,115,232,0.35); }
+.total-section { text-align: right; }
+.total-lbl-sm { font-size: 11px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
+.total-sub-sm { font-size: 13px; color: var(--text2); font-family: 'JetBrains Mono', monospace; }
+.total-grand { font-size: 32px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; line-height: 1; }
 
-/* RECENT BILLS */
-.brow { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+/* ── RECENT BILLS ── */
+.brow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
 .brow:last-child { border-bottom: none; }
-.bdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.bdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .bdot.pending { background: var(--warn); }
-.bdot.done { background: var(--accent2); }
-.bno { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); min-width: 40px; }
-.bpat { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.btime { font-size: 11px; color: var(--text3); }
-.bamt { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--accent); font-size: 12px; }
+.bdot.done { background: var(--green); }
+.bno { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); min-width: 44px; }
+.bpat { flex: 1; font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btime { font-size: 11px; color: var(--text3); white-space: nowrap; }
+.bamt { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); font-size: 14px; }
 
-/* HINTS */
-.hints { display: flex; gap: 12px; flex-wrap: wrap; padding: 6px 0; margin-bottom: 6px; }
-.hint { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text3); }
-kbd { background: white; border: 1px solid var(--border2); border-radius: 4px; padding: 1px 5px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text2); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+/* ── FIXED BOTTOM BAR ── */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--bottom-h);
+  background: white;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 10px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  z-index: 200;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+}
+.bbtn {
+  flex: 1; border: none; border-radius: 10px;
+  font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.15s; display: flex;
+  align-items: center; justify-content: center; gap: 4px;
+  min-height: 50px; padding: 0 6px;
+}
+.bbtn-new   { background: var(--danger-light); color: var(--danger); flex: 0.65; font-size: 13px; }
+.bbtn-new:active { background: #f5b5b0; }
+.bbtn-save  { background: var(--accent-light); color: var(--accent); }
+.bbtn-save:active { background: #c5d9f5; }
+.bbtn-print { background: #f0f4ff; color: var(--accent); border: 1.5px solid #c5d4f5; }
+.bbtn-print:active { background: var(--accent-light); }
+.bbtn-bt {
+  background: var(--accent); color: white;
+  flex: 0.65; font-size: 22px;
+  box-shadow: 0 3px 10px rgba(26,115,232,0.35);
+  position: relative;
+}
+.bbtn-bt:active { background: var(--accent-dark); transform: scale(0.96); }
+.bbtn-bt.connected { background: var(--green); box-shadow: 0 3px 10px rgba(15,157,88,0.35); }
+.bbtn-bt.printing  { background: var(--warn);  box-shadow: 0 3px 10px rgba(249,171,0,0.35); }
+/* Pulsing dot on BT button when connected */
+.bbtn-bt.connected::after {
+  content: ''; position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: white; opacity: 0.8;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:0.8} 50%{transform:scale(1.4);opacity:0.4} }
 
-/* TOAST */
-.toast-wrap { position: fixed; top: 70px; right: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-.toast { background: white; border-radius: 10px; padding: 11px 14px; display: flex; align-items: center; gap: 9px; min-width: 240px; box-shadow: var(--shadow-md); border-left: 4px solid var(--accent); animation: pin 0.3s ease; font-size: 13px; }
-.toast.ok { border-left-color: var(--accent2); }
+/* ── TOAST ── */
+.toast-wrap { position: fixed; top: 68px; left: 12px; right: 12px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast {
+  background: white; border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--sh2); border-left: 4px solid var(--accent);
+  animation: pin 0.3s ease; font-size: 14px;
+}
+.toast.ok { border-left-color: var(--green); }
 .toast.err { border-left-color: var(--danger); }
 .toast.warn { border-left-color: var(--warn); }
-@keyframes pin { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
-.ti { font-size: 17px; }
-.tt { font-weight: 700; color: var(--text); }
-.tm { font-size: 11px; color: var(--text2); }
+@keyframes pin { from{transform:translateY(-20px);opacity:0} to{transform:translateY(0);opacity:1} }
+.ti { font-size: 18px; flex-shrink: 0; }
+.tt { font-weight: 700; color: var(--text); font-size: 14px; }
+.tm { font-size: 12px; color: var(--text2); }
 
-/* ACHIEVEMENT */
-.achpop { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(110px); background: white; border: 2px solid var(--warn); border-radius: 16px; padding: 16px 32px; text-align: center; z-index: 9999; box-shadow: 0 8px 32px rgba(249,171,0,0.2); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+/* ── ACHIEVEMENT ── */
+.achpop {
+  position: fixed; bottom: 90px; left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: white; border: 2px solid var(--warn);
+  border-radius: 16px; padding: 16px 28px; text-align: center;
+  z-index: 9999; box-shadow: 0 8px 32px rgba(249,171,0,0.2);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  width: calc(100% - 40px); max-width: 320px;
+}
 .achpop.show { transform: translateX(-50%) translateY(0); }
-.acho { font-size: 38px; }
-.acht { font-size: 19px; font-weight: 700; color: var(--text); margin-top: 4px; }
-.achs { font-size: 13px; color: var(--text2); }
+.acho { font-size: 40px; }
+.acht { font-size: 20px; font-weight: 700; color: var(--text); margin-top: 4px; }
+.achs { font-size: 13px; color: var(--text2); margin-top: 2px; }
 
-/* PRINT MODAL */
-.pmodal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9998; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+/* ── PRINT MODAL ── */
+.pmodal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 9998;
+  align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(3px);
+}
 .pmodal.open { display: flex; }
-.pwrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.receipt { background: white; width: 232px; padding: 14px 12px; font-family: 'Courier New', monospace; font-size: 11.5px; border-radius: 4px; box-shadow: 0 0 40px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto; line-height: 1.6; }
+.pwrap {
+  background: white; border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 480px;
+  padding: 20px 20px max(20px, env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  max-height: 90vh; overflow-y: auto;
+}
+.pwrap-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin-bottom: 4px; }
+.receipt {
+  background: white; width: 100%; max-width: 232px;
+  padding: 14px 12px; font-family: 'Courier New', monospace;
+  font-size: 12px; border: 1px solid var(--border);
+  border-radius: 4px; line-height: 1.6;
+}
 .rc { text-align: center; }
 .rb { font-weight: bold; }
 .rdash { border: none; border-top: 1px dashed #bbb; margin: 5px 0; }
 .rrow { display: flex; justify-content: space-between; }
-.pbtns { display: flex; gap: 10px; }
-.pbtn { padding: 10px 22px; border-radius: 8px; border: none; font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.pbtn-c { background: white; color: var(--text); border: 1.5px solid var(--border2); }
-.pbtn-c:hover { background: var(--bg); }
-.pbtn-p { background: var(--accent); color: white; }
-.pbtn-p:hover { background: #1557b0; }
-
-@media (max-width: 860px) {
-  .layout { grid-template-columns: 1fr; }
-  .fr.c2 { grid-template-columns: 1fr; }
+.pbtns { display: flex; gap: 8px; width: 100%; }
+.pbtn {
+  flex: 1; padding: 13px 6px; border-radius: 10px; border: none;
+  font-family: 'Mukta', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; min-height: 50px;
 }
+.pbtn-c  { background: var(--bg); color: var(--text2); border: 1.5px solid var(--border2); flex: 0.7; }
+.pbtn-bt { background: var(--accent); color: white; }
+.pbtn-p  { background: #f0f4ff; color: var(--accent); border: 1.5px solid #c5d4f5; flex: 0.8; font-size: 13px; }
+
+/* ── KEYBOARD HINTS (desktop only) ── */
+.hints { display: none; }
+@media (min-width: 640px) {
+  .hints { display: flex; gap: 12px; flex-wrap: wrap; padding: 4px 0 10px; }
+  .hint { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text3); }
+  kbd { background: white; border: 1px solid var(--border2); border-radius: 4px; padding: 1px 5px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text2); }
+}
+
+/* ── TABLET / DESKTOP ── */
+@media (min-width: 640px) {
+  .field-row { grid-template-columns: 1fr 1fr; }
+  .pmodal { align-items: center; }
+  .pwrap { border-radius: 16px; max-width: 400px; }
+  .pwrap-handle { display: none; }
+}
+
+/* ── PRINT ── */
 @media print {
   body * { visibility: hidden; }
   .receipt, .receipt * { visibility: visible; }
-  .receipt { position: fixed; left: 0; top: 0; width: 58mm; }
+  .receipt { position: fixed; left: 0; top: 0; width: 58mm; border: none; }
 }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="brand">
-    <div class="brand-icon">⚕</div>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-ico">⚕️</div>
     <div>
-      <h1>Sahyog Medical Store</h1>
-      <small>Manasa, MADHYA PRADESH</small>
+      <div class="hdr-name">Sahyog Medical</div>
+      <div class="hdr-sub">Manasa, MP</div>
     </div>
   </div>
-  <div class="header-right">
-    <div class="clock" id="clock">--:--:--</div>
-    <div class="billbadge">Bill #<span id="billNoDisp">...</span></div>
+  <div class="hdr-right">
+    <div class="hdr-clock" id="clock">--:--</div>
+    <div class="bill-badge">Bill #<span id="billNoDisp">...</span></div>
   </div>
 </header>
 
-<div class="target-strip">
-  <div class="tl">🎯 Target: <strong id="targetLbl">100 Bills</strong></div>
-  <div class="prog-wrap">
-    <div class="prog-bg">
-      <div class="prog-fill" id="progFill" style="width:0%"></div>
-    </div>
-  </div>
-  <div class="tpct" id="progPct">0%</div>
-  <div class="tcnt"><span id="bdone">0</span> / <span id="btarget">100</span> bills</div>
-  <div id="temoji" style="font-size:17px; margin-left:4px;">📋</div>
+<!-- TARGET BAR -->
+<div class="target-bar">
+  <div class="t-lbl">🎯 <strong id="targetLbl">100</strong></div>
+  <div class="t-prog"><div class="t-fill" id="progFill" style="width:0%"></div></div>
+  <div class="t-pct" id="progPct">0%</div>
+  <div class="t-count"><b id="bdone">0</b>/<b id="btarget">100</b></div>
+  <div class="t-emoji" id="temoji">📋</div>
 </div>
 
-<div class="main">
+<!-- SCROLL AREA -->
+<div class="scroll-area">
+
+  <!-- Keyboard hints (desktop) -->
   <div class="hints">
-    <div class="hint"><kbd>F2</kbd> New Bill</div>
-    <div class="hint"><kbd>F3</kbd> Add Medicine</div>
+    <div class="hint"><kbd>F2</kbd> New</div>
+    <div class="hint"><kbd>F3</kbd> Add Med</div>
     <div class="hint"><kbd>F4</kbd> Print</div>
     <div class="hint"><kbd>Alt+S</kbd> Save</div>
-    <div class="hint"><kbd>F6</kbd> Patient Focus</div>
   </div>
 
-  <div class="layout">
-    <div>
-
-      <!-- Patient Card -->
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Patient Details</div>
-          <span style="font-size:12px; color:var(--text3);" id="todayDate"></span>
+  <!-- Patient Card -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-ttl">Patient Details</div>
+      <span style="font-size:12px;color:var(--text3)" id="todayDate"></span>
+    </div>
+    <div class="card-bd">
+      <div class="field-row">
+        <div class="field acw" style="margin-bottom:0">
+          <label class="lbl">Patient Name <span class="r">*</span></label>
+          <input class="inp" id="patName" placeholder="मरीज़ का नाम..." autocomplete="off"
+            oninput="acPat(this.value)" onblur="setTimeout(()=>closeAc('acPatD'),200)">
+          <div class="acl" id="acPatD"></div>
         </div>
-        <div class="card-body">
-          <div class="fr c2">
-            <div class="fld acw">
-              <label class="lbl">Patient Name <span class="r">*</span></label>
-              <input class="inp" id="patName" placeholder="मरीज़ का नाम..." autocomplete="off"
-                oninput="acPat(this.value)" onblur="setTimeout(()=>closeAc('acPatD'),150)">
-              <div class="acl" id="acPatD"></div>
-            </div>
-            <div class="fld">
-              <label class="lbl">Doctor Name</label>
-              <input class="inp" id="docName" placeholder="Doctor का नाम...">
-            </div>
-          </div>
-          <div class="fr c2">
-            <div class="fld">
-              <label class="lbl">Mobile (Optional)</label>
-              <input class="inp" id="mobile" placeholder="9XXXXXXXXX" type="tel" maxlength="10">
-            </div>
-            <div class="fld">
-              <label class="lbl">Prescription</label>
-              <div class="upbox" id="upBox" onclick="document.getElementById('upFile').click()">
-                <input type="file" id="upFile" accept="image/*,.pdf" onchange="handleUp(this)">
-                <div class="upico">📋</div>
-                <div class="uptxt" id="upTxt">Upload karein</div>
-              </div>
-            </div>
-          </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="lbl">Doctor</label>
+          <input class="inp" id="docName" placeholder="Doctor का नाम...">
         </div>
       </div>
-
-      <!-- Medicine Card -->
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Medicines</div>
-          <span style="font-size:12px; color:var(--text3);">F3 = Add</span>
+      <div class="field-row" style="margin-top:10px; margin-bottom:0;">
+        <div class="field" style="margin-bottom:0">
+          <label class="lbl">Mobile</label>
+          <input class="inp" id="mobile" placeholder="9XXXXXXXXX" type="tel" maxlength="10" inputmode="numeric">
         </div>
-        <div class="card-body">
-          <div class="qlbl">Quick Add</div>
-          <div class="qbtns" id="qbtns"></div>
-
-          <div class="med-wrap">
-            <table class="med-tbl">
-              <thead>
-                <tr>
-                  <th style="min-width:175px;">Medicine</th>
-                  <th style="width:52px;">Qty</th>
-                  <th style="width:72px;">Unit</th>
-                  <th style="width:68px;">MRP</th>
-                  <th style="width:62px;">Tab/Strip</th>
-                  <th style="width:78px; text-align:right;">Amount</th>
-                  <th style="width:26px;"></th>
-                </tr>
-              </thead>
-              <tbody id="medBody"></tbody>
-            </table>
-          </div>
-
-          <button class="addbtn" onclick="addRow()">➕ Medicine Add करें (F3)</button>
-
-          <div class="bottom">
-            <div>
-              <div class="discrow">
-                <label>Discount</label>
-                <div style="display:flex;border:1.5px solid var(--border2);border-radius:8px;overflow:hidden;">
-                  <button id="discTypePct" onclick="setDiscType('pct')"
-                    style="padding:7px 13px;border:none;background:var(--accent);color:white;font-family:'Mukta',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">%</button>
-                  <button id="discTypeAmt" onclick="setDiscType('amt')"
-                    style="padding:7px 13px;border:none;background:white;color:var(--text2);font-family:'Mukta',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border-left:1px solid var(--border2);">₹</button>
-                </div>
-                <input type="number" class="discinp" id="discVal" value="10" min="0" oninput="calcAll()" style="width:85px;">
-                <span id="discUnit" style="font-size:15px;color:var(--text2);font-weight:700;">%</span>
-                <span class="discamt" id="discAmtShow"></span>
-              </div>
-            </div>
-            <div class="totalbox">
-              <div class="total-lbl">Grand Total</div>
-              <div class="total-sub" id="subShow">Subtotal: ₹0</div>
-              <div class="total-grand" id="grandShow">₹0</div>
-            </div>
-          </div>
-
-          <div class="actbtns">
-            <button class="btn btn-new" onclick="newBill()">❌ New</button>
-            <button class="btn btn-save" onclick="saveBill()">💾 Save</button>
-            <button class="btn btn-print" onclick="printBill()">🖨️ Print (F4)</button>
+        <div class="field" style="margin-bottom:0">
+          <label class="lbl">Prescription</label>
+          <div class="upbox" id="upBox" onclick="document.getElementById('upFile').click()">
+            <input type="file" id="upFile" accept="image/*,.pdf" capture="environment" onchange="handleUp(this)">
+            <div class="upico">📋</div>
+            <div class="uptxt" id="upTxt">Upload / Camera</div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Sidebar -->
-    <div>
-      <div class="card">
-        <div class="card-head"><div class="card-title">Recent Bills</div></div>
-        <div class="card-body" id="recentList" style="padding:10px 14px;"></div>
+  <!-- Medicine Card -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-ttl">Medicines</div>
+      <span style="font-size:12px;color:var(--text3);" id="medCount">0 items</span>
+    </div>
+    <div class="card-bd">
+
+      <!-- Quick Add -->
+      <div class="qlbl">Quick Add</div>
+      <div class="qbtns" id="qbtns"></div>
+
+      <!-- Medicine cards container -->
+      <div id="medList"></div>
+
+      <!-- Add button -->
+      <button class="add-med-btn" onclick="addRow()">➕ Medicine Add करें</button>
+
+      <!-- Discount + Total -->
+      <div class="disc-total-row">
+        <div class="disc-section">
+          <span class="disc-lbl">Discount</span>
+          <div class="disc-toggle">
+            <button id="dTypePct" onclick="setDiscType('pct')">%</button>
+            <button id="dTypeAmt" onclick="setDiscType('amt')">₹</button>
+          </div>
+          <input type="number" class="disc-val-inp" id="discVal" value="10" min="0" inputmode="decimal" oninput="calcAll()">
+          <span class="disc-sym" id="discUnit">%</span>
+          <span class="disc-saved" id="discSaved"></span>
+        </div>
+        <div class="total-section">
+          <div class="total-lbl-sm">Total</div>
+          <div class="total-sub-sm" id="subShow">₹0</div>
+          <div class="total-grand" id="grandShow">₹0</div>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Recent Bills -->
+  <div class="card">
+    <div class="card-hd"><div class="card-ttl">Recent Bills</div></div>
+    <div class="card-bd" id="recentList" style="padding:10px 14px;min-height:48px;">
+      <div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>
+    </div>
+  </div>
+
+</div><!-- /scroll-area -->
+
+<!-- FIXED BOTTOM BAR -->
+<div class="bottom-bar">
+  <button class="bbtn bbtn-new" onclick="newBill()">❌ New</button>
+  <button class="bbtn bbtn-save" onclick="saveBill()">💾 Save</button>
+  <button class="bbtn bbtn-print" onclick="printBill()">👁️ Preview</button>
+  <button class="bbtn bbtn-bt" id="btPrintBtn" onclick="btPrint()">🖨️</button>
 </div>
 
 <!-- PRINT MODAL -->
 <div class="pmodal" id="pmodal" onclick="if(event.target===this)closePrint()">
   <div class="pwrap">
+    <div class="pwrap-handle"></div>
     <div class="receipt" id="receiptEl"></div>
     <div class="pbtns">
       <button class="pbtn pbtn-c" onclick="closePrint()">Close</button>
-      <button class="pbtn pbtn-p" onclick="window.print()">🖨️ Print</button>
+      <button class="pbtn pbtn-bt" id="modalBtBtn" onclick="btPrint()">🖨️ Direct Print</button>
+      <button class="pbtn pbtn-p" onclick="window.print()">📄 Browser</button>
     </div>
   </div>
 </div>
 
+<!-- TOAST -->
 <div class="toast-wrap" id="toastWrap"></div>
 
+<!-- ACHIEVEMENT -->
 <div class="achpop" id="achpop">
   <div class="acho" id="acho">🏆</div>
   <div class="acht" id="acht">Target!</div>
@@ -376,52 +582,57 @@ kbd { background: white; border: 1px solid var(--border2); border-radius: 4px; p
 </div>
 
 <script>
-// ── CONFIG — SHEETS URL YAHAN DAALO ──
+// ══════════════════════════════════════════
+// CONFIG — SHEETS URL YAHAN DAALO
+// ══════════════════════════════════════════
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxgHafvhytA6ankBKiN90jCjWD1JTNynVGHRyeyiqepFg1Uapzi8Ibc2s_joQbIow78/exec";
-// ↑ Sirf yeh ek line badlo — apna deployed Apps Script URL yahan paste karo
+// ↑ Apna deployed Apps Script URL yahan paste karo — bas yahi ek line badalni hai
 
+// ══════════════════════════════════════════
+// SHEETS SYNC
+// ══════════════════════════════════════════
 async function syncSheets(data) {
   if (SHEETS_URL.includes("YOUR_SCRIPT")) return;
   try {
     await fetch(SHEETS_URL, {
-      method: "POST", mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
+      method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify(data)
     });
   } catch(e) {}
 }
 
-// ── MEDICINE MASTER ──
+// ══════════════════════════════════════════
+// MEDICINE MASTER
+// ══════════════════════════════════════════
 const MEDS = [
-  
 ];
 
-const PATIENTS = ["Ramesh Kumar","Sunita Devi","Mahesh Patel","Priya Sharma","Rajesh Joshi",
-  "Anita Verma","Suresh Yadav","Kavita Bai","Mohan Lal","Geeta Devi","Ravi Tiwari","Pooja Singh"];
+const PATIENTS = [
+];
 
-// ── STATE ──
-// Bill ID: Sheets se sequential fetch karta hai (100% unique across devices)
-// Fallback: DDMMHHMM-RR format (agar Sheets URL nahi set ki)
-let billNo = null;       // null = abhi fetch ho raha hai
-let billNoDisplay = "..."; // header mein dikhta hai
-let billsDone = parseInt(localStorage.getItem('sahyog_bills_done_today') || '0');
-
-const TODAY_KEY = new Date().toLocaleDateString('en-IN');
-if (localStorage.getItem('sahyog_date') !== TODAY_KEY) {
-  localStorage.setItem('sahyog_date', TODAY_KEY);
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let billNo  = null;
+let billsDone = parseInt(localStorage.getItem('sahyog_done_today') || '0');
+const TODAY = new Date().toLocaleDateString('en-IN');
+if (localStorage.getItem('sahyog_date') !== TODAY) {
+  localStorage.setItem('sahyog_date', TODAY);
   billsDone = 0;
-  localStorage.setItem('sahyog_bills_done_today', '0');
+  localStorage.setItem('sahyog_done_today','0');
 }
-
 let targetBills = parseInt(localStorage.getItem('sahyog_target') || '100');
 let recent = [];
 let rid = 0;
-let upFile = "";
-let discType = 'pct';
+let upFile = "";       // file name for display
+let upBase64 = "";     // base64 data to send
+let upMime = "";       // mime type
 
-// ── BILL NUMBER GENERATION ──
+// ══════════════════════════════════════════
+// BILL ID — Sheets se ya timestamp fallback
+// ══════════════════════════════════════════
 function makeFallbackId() {
-  // Format: DDMMHHMM + 2 random digits = e.g. 1003-1145-42
   const n = new Date();
   const dd = String(n.getDate()).padStart(2,'0');
   const mo = String(n.getMonth()+1).padStart(2,'0');
@@ -432,134 +643,148 @@ function makeFallbackId() {
 }
 
 async function fetchNextBillNo() {
-  const badge = document.getElementById('billNoDisp');
-  badge.textContent = '...';
-
+  const el = document.getElementById('billNoDisp');
+  el.textContent = '...';
   if (SHEETS_URL.includes('YOUR_SCRIPT')) {
     billNo = makeFallbackId();
-    badge.textContent = billNo;
-    return;
+    el.textContent = billNo; return;
   }
-
   try {
-    const res = await fetch(SHEETS_URL + '?action=getNextBillNo', { method:'GET' });
-    const data = await res.json();
-    billNo = (data && data.billNo) ? data.billNo : makeFallbackId();
+    const res = await fetch(SHEETS_URL + '?action=getNextBillNo');
+    const d = await res.json();
+    billNo = (d && d.billNo) ? d.billNo : makeFallbackId();
   } catch(e) {
     billNo = makeFallbackId();
-    toast('warn','Offline Mode',`Bill ID: ${billNo}`);
   }
-  badge.textContent = billNo;
+  el.textContent = billNo;
 }
 
-// ── DISCOUNT TYPE ──
-function setDiscType(type) {
-  discType = type;
-  document.getElementById('discUnit').textContent = type === 'pct' ? '%' : '₹';
-  document.getElementById('discTypePct').style.background = type === 'pct' ? 'var(--accent)' : 'white';
-  document.getElementById('discTypePct').style.color = type === 'pct' ? 'white' : 'var(--text2)';
-  document.getElementById('discTypeAmt').style.background = type === 'amt' ? 'var(--accent)' : 'white';
-  document.getElementById('discTypeAmt').style.color = type === 'amt' ? 'white' : 'var(--text2)';
-  // % max set
-  if (type === 'pct') {
-    document.getElementById('discVal').max = 100;
-    document.getElementById('discVal').value = 10;
-  } else {
-    document.getElementById('discVal').removeAttribute('max');
-    document.getElementById('discVal').value = 0;
-  }
-  calcAll();
-}
-
-// ── CLOCK ──
+// ══════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════
 function tick() {
   document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('en-IN',{hour12:false});
+    new Date().toLocaleTimeString('en-IN',{hour12:false,hour:'2-digit',minute:'2-digit'});
 }
 setInterval(tick,1000); tick();
 document.getElementById('todayDate').textContent =
   new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
 
-// ── TARGET ──
+// ══════════════════════════════════════════
+// TARGET
+// ══════════════════════════════════════════
 function updateTarget() {
   const pct = Math.min(100, Math.round((billsDone/targetBills)*100));
-  document.getElementById('progFill').style.width = pct + '%';
-  document.getElementById('progPct').textContent = pct + '%';
-  document.getElementById('bdone').textContent = billsDone;
-  document.getElementById('btarget').textContent = targetBills;
-  document.getElementById('targetLbl').textContent = targetBills + ' Bills';
-  const em = document.getElementById('temoji');
-  em.textContent = pct>=100?'🏆':pct>=75?'🔥':pct>=50?'⚡':'📋';
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progPct').textContent  = pct+'%';
+  document.getElementById('bdone').textContent    = billsDone;
+  document.getElementById('btarget').textContent  = targetBills;
+  document.getElementById('targetLbl').textContent= targetBills+' Bills';
+  document.getElementById('temoji').textContent   = pct>=100?'🏆':pct>=75?'🔥':pct>=50?'⚡':'📋';
 
   if (billsDone === targetBills && billsDone > 0) {
     targetBills += 50;
     localStorage.setItem('sahyog_target', targetBills);
     updateTarget();
-    showAch('🏆','Target Complete!',`Shabash! New target: ${targetBills} bills!`);
+    showAch('🏆','Target Complete!',`New target: ${targetBills} bills!`);
   } else if (billsDone === Math.floor(targetBills*0.5) && billsDone > 0) {
-    showAch('⚡','Halfway Done!',`${billsDone} bills ho gaye! Keep going 💪`);
+    showAch('⚡','Halfway Done!',`${billsDone} bills complete! 💪`);
   }
 }
 
 function showAch(e,t,s) {
-  document.getElementById('acho').textContent=e;
-  document.getElementById('acht').textContent=t;
-  document.getElementById('achs').textContent=s;
-  const p=document.getElementById('achpop');
+  document.getElementById('acho').textContent = e;
+  document.getElementById('acht').textContent = t;
+  document.getElementById('achs').textContent = s;
+  const p = document.getElementById('achpop');
   p.classList.add('show');
-  setTimeout(()=>p.classList.remove('show'),4000);
+  setTimeout(()=>p.classList.remove('show'), 4000);
 }
 
-// ── QUICK MEDS ──
+// ══════════════════════════════════════════
+// QUICK MEDS
+// ══════════════════════════════════════════
 document.getElementById('qbtns').innerHTML = MEDS.slice(0,10).map(m=>
-  `<button class="qbtn" onclick="addRow({n:'${m.n}',mrp:${m.mrp},tps:${m.tps},u:'${m.u}'})">
-    ${m.n}
-  </button>`
+  `<button class="qbtn" ontouchend="quickAdd(event,'${m.n}',${m.mrp},${m.tps},'${m.u}')"
+    onclick="quickAdd(event,'${m.n}',${m.mrp},${m.tps},'${m.u}')">${m.n}</button>`
 ).join('');
 
-// ── MED ROWS ──
+function quickAdd(e, name, mrp, tps, u) {
+  e.preventDefault();
+  addRow({n:name, mrp, tps, u});
+}
+
+// ══════════════════════════════════════════
+// MEDICINE ROWS — card style
+// ══════════════════════════════════════════
 function addRow(pre={}) {
   const id = ++rid;
-  const tr = document.createElement('tr');
-  tr.id = 'r'+id;
+  const div = document.createElement('div');
+  div.className = 'med-card';
+  div.id = 'mc'+id;
+
   const units = ['Tablet','Strip','Capsule','Box','Bottle','Sachet'];
-  tr.innerHTML = `
-    <td style="padding:4px 3px;">
-      <div class="acw">
-        <input class="tinp" id="mn${id}" placeholder="Medicine..." style="min-width:155px;"
-          value="${pre.n||''}" autocomplete="off"
-          oninput="acMed(this.value,${id})" onblur="setTimeout(()=>closeAc('ac${id}'),200)">
+  const unitOpts = units.map(u=>`<option ${(pre.u||'Tablet')===u?'selected':''}>${u}</option>`).join('');
+
+  div.innerHTML = `
+    <div class="med-card-top">
+      <div class="med-num">${id}</div>
+      <div class="med-name-wrap acw">
+        <input class="inp" id="mn${id}" placeholder="Medicine name..." value="${pre.n||''}"
+          autocomplete="off" style="border-radius:8px; padding:9px 12px; font-size:14px;"
+          oninput="acMed(this.value,${id})"
+          onblur="setTimeout(()=>closeAc('ac${id}'),200)">
         <div class="acl" id="ac${id}"></div>
       </div>
-    </td>
-    <td style="padding:4px 3px;">
-      <input class="tinp" id="q${id}" type="number" value="${pre.qty||1}" min="1"
-        style="text-align:center;" oninput="calcRow(${id})">
-    </td>
-    <td style="padding:4px 3px;">
-      <select class="tinp" id="u${id}" onchange="calcRow(${id})" style="padding:5px 4px; font-size:12px;">
-        ${units.map(x=>`<option ${(pre.u||'Tablet')===x?'selected':''}>${x}</option>`).join('')}
-      </select>
-    </td>
-    <td style="padding:4px 3px;">
-      <input class="tinp" id="m${id}" type="number" value="${pre.mrp||''}"
-        placeholder="0" style="text-align:right;" oninput="calcRow(${id})">
-    </td>
-    <td style="padding:4px 3px;">
-      <input class="tinp" id="t${id}" type="number" value="${pre.tps||10}"
-        style="text-align:center;" oninput="calcRow(${id})">
-    </td>
-    <td><div class="rowt" id="rt${id}">₹0</div></td>
-    <td><button class="delbtn" onclick="delRow(${id})">×</button></td>
+      <button class="med-del" onclick="delRow(${id})">×</button>
+    </div>
+    <div class="med-card-grid">
+      <div class="med-mini-field">
+        <div class="med-mini-lbl">Qty</div>
+        <input class="mini-inp" id="q${id}" type="number" value="${pre.qty||1}" min="1"
+          inputmode="numeric" oninput="calcRow(${id})">
+      </div>
+      <div class="med-mini-field">
+        <div class="med-mini-lbl">Unit</div>
+        <select class="mini-inp" id="u${id}" onchange="calcRow(${id})">${unitOpts}</select>
+      </div>
+      <div class="med-mini-field">
+        <div class="med-mini-lbl">MRP ₹</div>
+        <input class="mini-inp" id="m${id}" type="number" value="${pre.mrp||''}"
+          placeholder="0" inputmode="decimal" oninput="calcRow(${id})">
+      </div>
+      <div class="med-mini-field">
+        <div class="med-mini-lbl">Tab/Strip</div>
+        <input class="mini-inp" id="t${id}" type="number" value="${pre.tps||10}"
+          inputmode="numeric" oninput="calcRow(${id})">
+      </div>
+      <div class="med-mini-field" style="grid-column:2/-1; display:flex; flex-direction:column; justify-content:flex-end;">
+        <div class="med-mini-lbl">Amount</div>
+        <div class="med-amt-val" id="rt${id}" style="font-size:20px; padding:6px 0;">₹0</div>
+      </div>
+    </div>
   `;
-  document.getElementById('medBody').appendChild(tr);
-  if (pre.n) calcRow(id);
-  else setTimeout(()=>document.getElementById('mn'+id)?.focus(),30);
+  document.getElementById('medList').appendChild(div);
+  updateMedCount();
+
+  if (pre.n) {
+    calcRow(id);
+  } else {
+    setTimeout(()=>document.getElementById('mn'+id)?.focus(), 80);
+  }
+  // Scroll into view on mobile
+  setTimeout(()=>div.scrollIntoView({behavior:'smooth', block:'nearest'}), 150);
 }
 
 function delRow(id) {
-  document.getElementById('r'+id)?.remove();
+  document.getElementById('mc'+id)?.remove();
+  updateMedCount();
   calcAll();
+}
+
+function updateMedCount() {
+  const n = document.querySelectorAll('.med-card').length;
+  document.getElementById('medCount').textContent = n + (n===1?' item':' items');
 }
 
 function calcRow(id) {
@@ -570,164 +795,210 @@ function calcRow(id) {
   const rate = (u==='Tablet'||u==='Capsule') ? mrp/tps : mrp;
   const tot  = qty * rate;
   const el = document.getElementById('rt'+id);
-  if(el) el.textContent = '₹'+tot.toFixed(0);
+  if (el) el.textContent = '₹'+tot.toFixed(0);
   calcAll();
 }
 
 function calcAll() {
   let sub = 0;
-  document.querySelectorAll('tr[id^="r"]').forEach(r=>{
-    const id=r.id.replace('r','');
+  document.querySelectorAll('.med-card').forEach(c=>{
+    const id = c.id.replace('mc','');
     sub += parseFloat(document.getElementById('rt'+id)?.textContent?.replace('₹',''))||0;
   });
   const dval = parseFloat(document.getElementById('discVal').value)||0;
-  let da = 0;
-  if (discType === 'pct') {
-    da = sub * (dval/100);
-  } else {
-    da = Math.min(dval, sub);
-  }
+  const da = discType==='pct' ? sub*(dval/100) : Math.min(dval,sub);
   const grand = sub - da;
-  document.getElementById('subShow').textContent  = 'Subtotal: ₹'+sub.toFixed(0);
-  document.getElementById('discAmtShow').textContent = da>0 ? `(-₹${da.toFixed(0)})` : '';
-  document.getElementById('grandShow').textContent = '₹'+grand.toFixed(0);
+  document.getElementById('subShow').textContent  = da>0 ? `Sub: ₹${sub.toFixed(0)}` : '';
+  document.getElementById('discSaved').textContent= da>0 ? `-₹${da.toFixed(0)} saved` : '';
+  document.getElementById('grandShow').textContent= '₹'+grand.toFixed(0);
 }
 
-// ── AUTOCOMPLETE ──
-function acMed(val,id) {
-  const dd=document.getElementById('ac'+id);
-  if(!val||val.length<2){dd.classList.remove('open');return;}
-  const f=MEDS.filter(m=>m.n.toLowerCase().includes(val.toLowerCase())).slice(0,8);
-  if(!f.length){dd.classList.remove('open');return;}
-  dd.innerHTML=f.map(m=>`
-    <div class="aco" onmousedown="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')">
+// ══════════════════════════════════════════
+// DISCOUNT TYPE
+// ══════════════════════════════════════════
+function setDiscType(type) {
+  discType = type;
+  document.getElementById('discUnit').textContent = type==='pct' ? '%' : '₹';
+  document.getElementById('dTypePct').style.cssText =
+    type==='pct' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
+  document.getElementById('dTypeAmt').style.cssText =
+    type==='amt' ? 'background:var(--accent);color:white;' : 'background:white;color:var(--text2);';
+  document.getElementById('discVal').value = type==='pct' ? 10 : 0;
+  calcAll();
+}
+
+// ══════════════════════════════════════════
+// AUTOCOMPLETE
+// ══════════════════════════════════════════
+function acMed(val, id) {
+  const dd = document.getElementById('ac'+id);
+  if (!val||val.length<2) { dd.classList.remove('open'); return; }
+  const f = MEDS.filter(m=>m.n.toLowerCase().includes(val.toLowerCase())).slice(0,8);
+  if (!f.length) { dd.classList.remove('open'); return; }
+  dd.innerHTML = f.map(m=>
+    `<div class="aco" onmousedown="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')"
+      ontouchend="fillMed(${id},'${m.n}',${m.mrp},${m.tps},'${m.u}')">
       <span>${m.n}</span><span class="xm">₹${m.mrp}</span>
-    </div>`).join('');
+    </div>`
+  ).join('');
   dd.classList.add('open');
 }
 
-function fillMed(id,name,mrp,tps,u) {
-  document.getElementById('mn'+id).value=name;
-  document.getElementById('m'+id).value=mrp;
-  document.getElementById('t'+id).value=tps;
-  document.getElementById('u'+id).value=u;
+function fillMed(id, name, mrp, tps, u) {
+  document.getElementById('mn'+id).value = name;
+  document.getElementById('m'+id).value  = mrp;
+  document.getElementById('t'+id).value  = tps;
+  document.getElementById('u'+id).value  = u;
   closeAc('ac'+id);
   calcRow(id);
-  setTimeout(()=>{const q=document.getElementById('q'+id);q?.focus();q?.select();},50);
+  // on mobile focus qty
+  setTimeout(()=>{
+    const q=document.getElementById('q'+id); q?.focus(); q?.select();
+  },80);
 }
 
 function acPat(val) {
-  const dd=document.getElementById('acPatD');
-  if(!val||val.length<2){dd.classList.remove('open');return;}
-  const f=PATIENTS.filter(p=>p.toLowerCase().includes(val.toLowerCase())).slice(0,6);
-  if(!f.length){dd.classList.remove('open');return;}
-  dd.innerHTML=f.map(p=>`
-    <div class="aco" onmousedown="document.getElementById('patName').value='${p}';closeAc('acPatD')">
+  const dd = document.getElementById('acPatD');
+  if (!val||val.length<2) { dd.classList.remove('open'); return; }
+  const f = PATIENTS.filter(p=>p.toLowerCase().includes(val.toLowerCase())).slice(0,6);
+  if (!f.length) { dd.classList.remove('open'); return; }
+  dd.innerHTML = f.map(p=>
+    `<div class="aco"
+      onmousedown="document.getElementById('patName').value='${p}';closeAc('acPatD')"
+      ontouchend="document.getElementById('patName').value='${p}';closeAc('acPatD')">
       👤 ${p}
-    </div>`).join('');
+    </div>`
+  ).join('');
   dd.classList.add('open');
 }
 
-function closeAc(id){document.getElementById(id)?.classList.remove('open');}
+function closeAc(id) { document.getElementById(id)?.classList.remove('open'); }
 
-// ── UPLOAD ──
+// ══════════════════════════════════════════
+// UPLOAD — file ko base64 mein convert karo
+// ══════════════════════════════════════════
 function handleUp(inp) {
-  if(!inp.files[0])return;
-  upFile=inp.files[0].name;
-  document.getElementById('upTxt').textContent='✓ '+upFile;
+  if (!inp.files[0]) return;
+  const file = inp.files[0];
+  upFile = file.name;
+  upMime = file.type || 'image/jpeg';
+
+  // UI update
+  document.getElementById('upTxt').textContent = '⏳ Loading...';
   document.getElementById('upBox').classList.add('filled');
-  document.getElementById('upBox').querySelector('.upico').textContent='✅';
-  toast('ok','Prescription','Upload ho gayi!');
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // e.g. "data:image/jpeg;base64,/9j/4AAQ..." — sirf base64 part chahiye
+    upBase64 = e.target.result.split(',')[1];
+    document.getElementById('upTxt').textContent = '✅ ' + upFile;
+    document.getElementById('upBox').querySelector('.upico').textContent = '✅';
+    toast('ok', 'Prescription Ready', 'Save karte waqt Drive pe upload hogi');
+  };
+  reader.onerror = function() {
+    toast('err', 'Upload Error', 'File read nahi ho paya');
+    upBase64 = ''; upFile = '';
+  };
+  reader.readAsDataURL(file);
 }
 
-// ── BILL ACTIONS ──
+// ══════════════════════════════════════════
+// BILL ACTIONS
+// ══════════════════════════════════════════
 function getItems() {
-  const items=[];
-  document.querySelectorAll('tr[id^="r"]').forEach(r=>{
-    const id=r.id.replace('r','');
-    const nm=document.getElementById('mn'+id)?.value?.trim();
-    if(!nm)return;
+  const items = [];
+  document.querySelectorAll('.med-card').forEach(c=>{
+    const id = c.id.replace('mc','');
+    const nm = document.getElementById('mn'+id)?.value?.trim();
+    if (!nm) return;
     items.push({
-      name:nm,
-      qty:parseFloat(document.getElementById('q'+id)?.value)||0,
-      unit:document.getElementById('u'+id)?.value,
-      mrp:parseFloat(document.getElementById('m'+id)?.value)||0,
-      tps:parseFloat(document.getElementById('t'+id)?.value)||1,
-      amt:parseFloat(document.getElementById('rt'+id)?.textContent?.replace('₹',''))||0
+      name: nm,
+      qty:  parseFloat(document.getElementById('q'+id)?.value)||0,
+      unit: document.getElementById('u'+id)?.value,
+      mrp:  parseFloat(document.getElementById('m'+id)?.value)||0,
+      tps:  parseFloat(document.getElementById('t'+id)?.value)||1,
+      amt:  parseFloat(document.getElementById('rt'+id)?.textContent?.replace('₹',''))||0
     });
   });
   return items;
 }
 
-function saveBill() {
-  const pat=document.getElementById('patName').value.trim();
-  if(!pat){toast('err','Error!','Patient name mandatory!');document.getElementById('patName').focus();return;}
-  const items=getItems();
-  if(!items.length){toast('warn','Warning','Medicine add karein!');return;}
-  const dval=parseFloat(document.getElementById('discVal').value)||0;
-  const grand=parseFloat(document.getElementById('grandShow').textContent.replace('₹',''))||0;
-  const doc=document.getElementById('docName').value.trim();
-  const mob=document.getElementById('mobile').value.trim();
-  const now=new Date();
-  const t=now.toLocaleTimeString('en-IN',{hour12:false,hour:'2-digit',minute:'2-digit'});
-  const d=now.toLocaleDateString('en-IN');
+async function saveBill() {
+  const pat = document.getElementById('patName').value.trim();
+  if (!pat) { toast('err','Error!','Patient name mandatory!'); document.getElementById('patName').focus(); return; }
+  const items = getItems();
+  if (!items.length) { toast('warn','Warning','Medicine add karein!'); return; }
 
-  recent.unshift({no:billNo,patient:pat,doctor:doc,amount:grand,time:t,status:'pending'});
+  const dval  = parseFloat(document.getElementById('discVal').value)||0;
+  const grand = parseFloat(document.getElementById('grandShow').textContent.replace('₹',''))||0;
+  const doc   = document.getElementById('docName').value.trim();
+  const mob   = document.getElementById('mobile').value.trim();
+  const now   = new Date();
+  const t     = now.toLocaleTimeString('en-IN',{hour12:false,hour:'2-digit',minute:'2-digit'});
+  const d     = now.toLocaleDateString('en-IN');
+
+  recent.unshift({no:billNo, patient:pat, doctor:doc, amount:grand, time:t, status:'pending'});
   renderRecent();
   billsDone++;
-  localStorage.setItem('sahyog_bills_done_today', billsDone);
+  localStorage.setItem('sahyog_done_today', billsDone);
   updateTarget();
 
-  syncSheets({
-    action:"saveBill",
-    billId:billNo, date:d, time:t,
+  toast('info', `Bill #${billNo} Saving...`, upBase64 ? 'Prescription Drive pe upload ho rahi hai...' : 'Sheets mein save ho raha hai...');
+
+  await syncSheets({
+    action:"saveBill", billId:billNo, date:d, time:t,
     patient:pat, doctor:doc, mobile:mob,
     discountType:discType, discountValue:dval, total:grand,
-    prescription:upFile||"",
+    // Prescription Drive upload ke liye
+    prescriptionBase64: upBase64 || "",
+    prescriptionName:   upFile   || "",
+    prescriptionMime:   upMime   || "",
     items:items.map(i=>({medicine:i.name,qty:i.qty,unit:i.unit,mrp:i.mrp,tabsPerStrip:i.tps,amount:i.amt}))
   });
 
-  toast('ok',`Bill #${billNo} Save`,`${pat} — ₹${grand.toFixed(0)}`);
+  toast('ok',`Bill #${billNo} Saved`,`${pat} — ₹${grand.toFixed(0)}`);
   fetchNextBillNo();
 }
 
 function newBill() {
-  document.getElementById('patName').value='';
-  document.getElementById('docName').value='';
-  document.getElementById('mobile').value='';
-  document.getElementById('discVal').value='10';
-  setDiscType('pct');
-  document.getElementById('medBody').innerHTML='';
-  document.getElementById('grandShow').textContent='₹0';
-  document.getElementById('subShow').textContent='Subtotal: ₹0';
-  document.getElementById('discAmtShow').textContent='';
-  document.getElementById('upTxt').textContent='Upload karein';
+  document.getElementById('patName').value = '';
+  document.getElementById('docName').value = '';
+  document.getElementById('mobile').value  = '';
+  document.getElementById('discVal').value = '10';
+  document.getElementById('medList').innerHTML = '';
+  document.getElementById('grandShow').textContent = '₹0';
+  document.getElementById('subShow').textContent   = '';
+  document.getElementById('discSaved').textContent  = '';
+  document.getElementById('upTxt').textContent = 'Upload / Camera';
   document.getElementById('upBox').classList.remove('filled');
-  document.getElementById('upBox').querySelector('.upico').textContent='📋';
-  upFile=''; rid=0;
+  document.getElementById('upBox').querySelector('.upico').textContent = '📋';
+  upFile=''; upBase64=''; upMime=''; rid=0;
+  setDiscType('pct');
+  updateMedCount();
   addRow();
   document.getElementById('patName').focus();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function printBill() {
-  const pat=document.getElementById('patName').value.trim();
-  if(!pat){toast('err','Error!','Patient name mandatory!');return;}
-  const items=getItems();
-  const doc=document.getElementById('docName').value.trim();
-  const dval=parseFloat(document.getElementById('discVal').value)||0;
-  const grand=document.getElementById('grandShow').textContent;
-  const sub=parseFloat(document.getElementById('subShow').textContent.replace('Subtotal: ₹',''))||0;
-  const da = discType==='pct' ? sub*(dval/100) : Math.min(dval,sub);
+  const pat = document.getElementById('patName').value.trim();
+  if (!pat) { toast('err','Error!','Patient name mandatory!'); return; }
+  const items = getItems();
+  const doc   = document.getElementById('docName').value.trim();
+  const dval  = parseFloat(document.getElementById('discVal').value)||0;
+  const grand = document.getElementById('grandShow').textContent;
+  const sub   = items.reduce((s,i)=>s+i.amt, 0);
+  const da    = discType==='pct' ? sub*(dval/100) : Math.min(dval,sub);
   const discLabel = discType==='pct' ? `${dval}%` : `₹${dval}`;
-  const today=new Date().toLocaleDateString('en-IN');
+  const today = new Date().toLocaleDateString('en-IN');
 
-  const rows=items.map(i=>{
-    const us={Tablet:'T',Strip:'S',Capsule:'C',Box:'Bx',Bottle:'Btl',Sachet:'Sc'}[i.unit]||i.unit[0];
-    const nm=i.name.length>14?i.name.slice(0,14):i.name.padEnd(14,' ');
-    return `<div class="rrow"><span>${nm}</span><span>${i.qty}${us}  ₹${i.amt.toFixed(0)}</span></div>`;
+  const rows = items.map(i=>{
+    const us = {Tablet:'T',Strip:'S',Capsule:'C',Box:'Bx',Bottle:'Btl',Sachet:'Sc'}[i.unit]||i.unit[0];
+    const nm = (i.name.length>14 ? i.name.slice(0,14) : i.name).padEnd(14,' ');
+    return `<div class="rrow"><span>${nm}</span><span>${i.qty}${us} ₹${i.amt.toFixed(0)}</span></div>`;
   }).join('');
 
-  document.getElementById('receiptEl').innerHTML=`
+  document.getElementById('receiptEl').innerHTML = `
     <div class="rc rb" style="font-size:13px;">SAHYOG MEDICAL STORE</div>
     <div class="rc" style="font-size:10px;">Manasa, Madhya Pradesh</div>
     <div class="rc" style="font-size:10px;">GSTIN: 23BUQPS8562N1ZL</div>
@@ -738,17 +1009,15 @@ function printBill() {
     <div><b>Patient:</b> ${pat}</div>
     ${doc?`<div><b>Doctor:</b> ${doc}</div>`:''}
     <hr class="rdash">
-    <div class="rrow rb" style="font-size:10px; border-bottom:1px dashed #ccc; padding-bottom:3px; margin-bottom:3px;">
-      <span>Item</span><span>Qty    Amt</span>
+    <div class="rrow rb" style="font-size:10px; padding-bottom:3px; border-bottom:1px dashed #ccc; margin-bottom:3px;">
+      <span>Item          </span><span>Qty  Amt</span>
     </div>
     ${rows}
     <hr class="rdash">
-    ${da>0?`
-      <div class="rrow"><span>Subtotal</span><span>₹${sub.toFixed(0)}</span></div>
-      <div class="rrow"><span>Discount (${discLabel})</span><span>-₹${da.toFixed(0)}</span></div>
-      <hr class="rdash">
-    `:''}
-    <div class="rrow rb" style="font-size:13px;"><span>TOTAL</span><span>${grand}</span></div>
+    ${da>0?`<div class="rrow"><span>Subtotal</span><span>₹${sub.toFixed(0)}</span></div>
+    <div class="rrow"><span>Discount(${discLabel})</span><span>-₹${da.toFixed(0)}</span></div>
+    <hr class="rdash">`:''}
+    <div class="rrow rb" style="font-size:14px;"><span>TOTAL</span><span>${grand}</span></div>
     <hr class="rdash">
     <div class="rc" style="font-size:10px; margin-top:6px; font-weight:bold;">Thank You! 🙏</div>
     <div class="rc" style="font-size:9px;">Sahyog Medical Store, Manasa</div>
@@ -757,13 +1026,253 @@ function printBill() {
   document.getElementById('pmodal').classList.add('open');
 }
 
-function closePrint(){document.getElementById('pmodal').classList.remove('open');}
+function closePrint() { document.getElementById('pmodal').classList.remove('open'); }
 
-// ── RECENT ──
+// ══════════════════════════════════════════
+// BLUETOOTH THERMAL PRINTER — ESC/POS
+// 58mm, Generic Chinese / RPP02N / PT-210
+// ══════════════════════════════════════════
+let btDevice = null;
+let btChar   = null;  // GATT characteristic to write to
+
+// Known Bluetooth printer service/characteristic UUIDs
+// Most 58mm Chinese thermal printers use one of these
+const BT_PROFILES = [
+  { service: '000018f0-0000-1000-8000-00805f9b34fb',  // Generic printer service
+    char:    '00002af1-0000-1000-8000-00805f9b34fb' },
+  { service: 'e7810a71-73ae-499d-8c15-faa9aef0c3f2',  // Common Chinese thermal
+    char:    'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f' },
+  { service: '49535343-fe7d-4ae5-8fa9-9fafd205e455',  // ISSC BLE UART
+    char:    '49535343-1e4d-4bd9-ba61-23c647249616' },
+  { service: '0000ff00-0000-1000-8000-00805f9b34fb',  // FF00 common
+    char:    '0000ff02-0000-1000-8000-00805f9b34fb' },
+  { service: '0000fff0-0000-1000-8000-00805f9b34fb',  // FFF0
+    char:    '0000fff2-0000-1000-8000-00805f9b34fb' },
+];
+
+// ESC/POS byte helpers
+const ESC = 0x1B, GS = 0x1D, LF = 0x0A, HT = 0x09;
+function esc(...b) { return new Uint8Array(b); }
+
+// Convert string to bytes (supports Hindi via UTF-8 fallback to ASCII for thermal)
+function strBytes(str) {
+  // Thermal printers don't support Unicode — replace Hindi chars with spaces
+  const ascii = str.replace(/[^\x00-\x7F]/g, ' ');
+  return new TextEncoder().encode(ascii);
+}
+
+// Center align a string in 32 char width (58mm = ~32 chars)
+function center(str, width=32) {
+  const s = str.replace(/[^\x00-\x7F]/g, ' ');
+  if (s.length >= width) return s.slice(0, width);
+  const pad = Math.floor((width - s.length) / 2);
+  return ' '.repeat(pad) + s;
+}
+
+// Left + right align two strings in 32 chars
+function lrPad(left, right, width=32) {
+  const l = left.replace(/[^\x00-\x7F]/g, ' ');
+  const r = right.replace(/[^\x00-\x7F]/g, ' ');
+  const space = width - l.length - r.length;
+  return l + (space > 0 ? ' '.repeat(space) : ' ') + r;
+}
+
+function dashes(w=32) { return '-'.repeat(w); }
+
+// Build complete ESC/POS byte array for the bill
+function buildEscPos(data) {
+  const { pat, doc, items, sub, da, grand, discLabel, today, billNo } = data;
+  const lines = [];
+
+  const push = (arr) => lines.push(arr);
+  const txt  = (s)   => lines.push(strBytes(s + '\n'));
+
+  // INIT printer
+  push(esc(ESC, 0x40));           // Initialize
+  push(esc(ESC, 0x61, 0x01));     // Center align
+
+  // Header — double height for shop name
+  push(esc(ESC, 0x21, 0x10));     // Double height
+  txt('SAHYOG MEDICAL STORE');
+  push(esc(ESC, 0x21, 0x00));     // Normal size
+  txt('Manasa, Madhya Pradesh');
+  txt('GSTIN: 23BUQPS8562N1ZL');
+  txt(dashes());
+
+  // Bill info — left align
+  push(esc(ESC, 0x61, 0x00));
+  txt(lrPad('Bill No: #' + billNo, today));
+  txt('Patient: ' + pat);
+  if (doc) txt('Doctor : ' + doc);
+  txt(dashes());
+
+  // Items header
+  push(esc(ESC, 0x45, 0x01));     // Bold ON
+  txt(lrPad('Item (Qty/Unit)', 'Amt'));
+  push(esc(ESC, 0x45, 0x00));     // Bold OFF
+  txt(dashes());
+
+  // Each medicine
+  items.forEach(i => {
+    const us = {Tablet:'T',Strip:'S',Capsule:'Cap',Box:'Box',Bottle:'Btl',Sachet:'Sct'}[i.unit] || i.unit[0];
+    const nm = i.name.length > 18 ? i.name.slice(0, 17) + '.' : i.name;
+    const qtyAmt = `${i.qty}${us}  Rs.${i.amt.toFixed(0)}`;
+    txt(lrPad(nm, qtyAmt));
+  });
+
+  txt(dashes());
+
+  // Discount + Total
+  if (da > 0) {
+    txt(lrPad('Subtotal', 'Rs.' + sub.toFixed(0)));
+    txt(lrPad('Discount (' + discLabel + ')', '-Rs.' + da.toFixed(0)));
+    txt(dashes());
+  }
+
+  // GRAND TOTAL — large font
+  push(esc(ESC, 0x61, 0x01));     // Center
+  push(esc(ESC, 0x21, 0x30));     // Double width + height
+  txt('TOTAL: Rs.' + grand.toFixed(0));
+  push(esc(ESC, 0x21, 0x00));     // Normal
+  push(esc(ESC, 0x61, 0x01));     // Center
+
+  txt(dashes());
+  txt('Thank You!');
+  txt('Sahyog Medical, Manasa');
+
+  // Feed + cut
+  push(esc(LF, LF, LF, LF));     // Feed 4 lines
+  push(esc(GS, 0x56, 0x42, 0x00)); // Full cut (if supported)
+
+  // Merge all into single Uint8Array
+  const total = lines.reduce((n, a) => n + a.length, 0);
+  const buf = new Uint8Array(total);
+  let off = 0;
+  lines.forEach(a => { buf.set(a, off); off += a.length; });
+  return buf;
+}
+
+// Connect to Bluetooth printer
+async function btConnect() {
+  if (!navigator.bluetooth) {
+    toast('err', 'Bluetooth Error', 'Chrome Android pe chalao, HTTPS chahiye');
+    return false;
+  }
+  try {
+    toast('info', 'Bluetooth', 'Printer dhundh raha hai...');
+
+    // Try each known profile
+    let connected = false;
+    for (const profile of BT_PROFILES) {
+      try {
+        btDevice = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true,
+          optionalServices: BT_PROFILES.map(p => p.service)
+        });
+        const server = await btDevice.gatt.connect();
+
+        for (const p of BT_PROFILES) {
+          try {
+            const svc = await server.getPrimaryService(p.service);
+            btChar    = await svc.getCharacteristic(p.char);
+            connected = true;
+            break;
+          } catch(e) { /* try next profile */ }
+        }
+        break; // device selected, stop asking
+      } catch(e) {
+        if (e.name === 'NotFoundError') return false; // user cancelled
+        break;
+      }
+    }
+
+    if (!connected || !btChar) {
+      // Last fallback — try writeValue on any writable char
+      toast('warn', 'Warning', 'Standard profile nahi mila, generic try kar raha...');
+      return false;
+    }
+
+    btDevice.addEventListener('gattserverdisconnected', () => {
+      btChar = null; btDevice = null;
+      setBtStatus('disconnected');
+      toast('warn', 'Bluetooth', 'Printer disconnect ho gaya');
+    });
+
+    setBtStatus('connected');
+    toast('ok', 'Printer Connected! ✅', btDevice.name || 'Thermal Printer');
+    return true;
+  } catch(e) {
+    toast('err', 'Connect Failed', e.message || 'Pairing nahi ho paya');
+    return false;
+  }
+}
+
+function setBtStatus(status) {
+  const btn = document.getElementById('btPrintBtn');
+  btn.classList.remove('connected', 'printing');
+  if (status === 'connected') { btn.classList.add('connected'); btn.textContent = '🖨️'; }
+  if (status === 'printing')  { btn.classList.add('printing');  btn.textContent = '⏳'; }
+  if (status === 'disconnected') { btn.textContent = '🖨️'; }
+}
+
+// Write bytes in chunks (BLE MTU is usually 20 bytes, but most printers accept 100-512)
+async function writeChunked(char, data, chunkSize=100) {
+  for (let i = 0; i < data.length; i += chunkSize) {
+    const chunk = data.slice(i, i + chunkSize);
+    await char.writeValue(chunk);
+    await new Promise(r => setTimeout(r, 30)); // small delay between chunks
+  }
+}
+
+// Main BT print function — called from button
+async function btPrint() {
+  const pat = document.getElementById('patName').value.trim();
+  if (!pat) { toast('err', 'Error!', 'Patient name mandatory!'); return; }
+  const items = getItems();
+  if (!items.length) { toast('warn', 'Warning', 'Medicine add karein!'); return; }
+
+  // Connect if not already connected
+  if (!btChar) {
+    const ok = await btConnect();
+    if (!ok) return;
+  }
+
+  // Build bill data
+  const dval  = parseFloat(document.getElementById('discVal').value) || 0;
+  const sub   = items.reduce((s, i) => s + i.amt, 0);
+  const da    = discType === 'pct' ? sub * (dval/100) : Math.min(dval, sub);
+  const grand = sub - da;
+  const discLabel = discType === 'pct' ? `${dval}%` : `Rs.${dval}`;
+  const doc   = document.getElementById('docName').value.trim();
+  const today = new Date().toLocaleDateString('en-IN');
+
+  try {
+    setBtStatus('printing');
+    toast('info', 'Printing...', 'Bill printer pe ja raha hai');
+
+    const bytes = buildEscPos({ pat, doc, items, sub, da, grand, discLabel, today, billNo });
+    await writeChunked(btChar, bytes);
+
+    setBtStatus('connected');
+    toast('ok', 'Print Done! ✅', `Bill #${billNo} — ${pat}`);
+    closePrint();
+  } catch(e) {
+    setBtStatus('disconnected');
+    btChar = null;
+    toast('err', 'Print Failed', 'Dobara try karo: ' + (e.message || ''));
+  }
+}
+
+// ══════════════════════════════════════════
+// RECENT BILLS
+// ══════════════════════════════════════════
 function renderRecent() {
-  const c=document.getElementById('recentList');
-  if(!recent.length){c.innerHTML=`<div style="text-align:center;color:var(--text3);font-size:13px;padding:18px 0;">Koi bill nahi abhi</div>`;return;}
-  c.innerHTML=recent.slice(0,10).map(b=>`
+  const c = document.getElementById('recentList');
+  if (!recent.length) {
+    c.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:13px;padding:10px 0;">Koi bill nahi abhi</div>';
+    return;
+  }
+  c.innerHTML = recent.slice(0,10).map(b=>`
     <div class="brow">
       <div class="bdot ${b.status}"></div>
       <div class="bno">#${b.no}</div>
@@ -773,229 +1282,192 @@ function renderRecent() {
     </div>`).join('');
 }
 
-// ── TOAST ──
-function toast(type,title,msg) {
-  const w=document.getElementById('toastWrap');
-  const d=document.createElement('div');
-  d.className=`toast ${type}`;
-  d.innerHTML=`<div class="ti">${{ok:'✅',err:'❌',warn:'⚠️',info:'ℹ️'}[type]||'ℹ️'}</div>
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function toast(type, title, msg) {
+  const w = document.getElementById('toastWrap');
+  const d = document.createElement('div');
+  d.className = `toast ${type}`;
+  const icons = {ok:'✅',err:'❌',warn:'⚠️',info:'ℹ️'};
+  d.innerHTML = `<div class="ti">${icons[type]||'ℹ️'}</div>
     <div><div class="tt">${title}</div><div class="tm">${msg}</div></div>`;
   w.appendChild(d);
-  setTimeout(()=>d.remove(),3500);
+  setTimeout(()=>d.remove(), 3500);
 }
 
-// ── KEYBOARD ──
-document.addEventListener('keydown',e=>{
-  if(e.key==='F2'){e.preventDefault();newBill();}
-  if(e.key==='F3'){e.preventDefault();addRow();}
-  if(e.key==='F4'){e.preventDefault();printBill();}
-  if(e.key==='F6'){e.preventDefault();document.getElementById('patName').focus();}
-  if(e.altKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveBill();}
-  if(e.key==='Escape')closePrint();
+// ══════════════════════════════════════════
+// KEYBOARD SHORTCUTS (desktop)
+// ══════════════════════════════════════════
+document.addEventListener('keydown', e=>{
+  if (e.key==='F2') { e.preventDefault(); newBill(); }
+  if (e.key==='F3') { e.preventDefault(); addRow(); }
+  if (e.key==='F4') { e.preventDefault(); printBill(); }
+  if (e.altKey && e.key.toLowerCase()==='s') { e.preventDefault(); saveBill(); }
+  if (e.key==='Escape') closePrint();
 });
 
-// ── INIT ──
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
 setDiscType('pct');
 addRow();
 renderRecent();
 updateTarget();
-fetchNextBillNo(); // Sheets se ya fallback se bill no lo
-setTimeout(()=>toast('info','Sahyog Medical','System ready! F3 se medicine add karein.'),600);
+fetchNextBillNo();
+setTimeout(()=>toast('info','Sahyog Medical','Ready! Medicine add karein.'), 700);
 </script>
 
 <!--
-══════════════════════════════════════════════════════════
-  GOOGLE APPS SCRIPT — COMPLETE SETUP
-══════════════════════════════════════════════════════════
+══════════════════════════════════════════════════
+  GOOGLE APPS SCRIPT — COMPLETE CODE
+  (Extensions → Apps Script → Paste karo)
+══════════════════════════════════════════════════
 
-STEP 1: Google Sheets banao
-  Naam: "Sahyog Medical Billing"
-  
-  Sheet 1 naam: "Bills"
-  A: BillID | B: Date | C: Time | D: Patient | E: Doctor
-  F: Mobile | G: Discount% | H: Total | I: MargERP_BillNo
-  J: Status | K: Prescription
-  
-  Sheet 2 naam: "Bill_Items"  
-  A: BillID | B: Medicine | C: Qty | D: Unit | E: MRP
-  F: TabsPerStrip | G: Amount
+// ⚠️ DRIVE FOLDER ID: Apna folder ID neeche daalo
+// Drive kholo → Prescriptions folder → URL mein last part copy karo
+// e.g. https://drive.google.com/drive/folders/1ABCxyz → "1ABCxyz"
+const DRIVE_FOLDER_ID = "YOUR_DRIVE_FOLDER_ID_HERE";
+const ADMIN_EMAIL     = "your-email@gmail.com";
 
-STEP 2: Extensions → Apps Script → Ye code paste karo:
-
-─────────────────────────────────────────────
 function doGet(e) {
   if (e.parameter.action === "getNextBillNo") {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getSheetByName("Bills");
-    const lock = LockService.getScriptLock();
-    lock.waitLock(10000); // 10 sec wait — concurrent requests handle karo
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bills");
+    const lock  = LockService.getScriptLock();
+    lock.waitLock(10000);
     try {
       const lastRow = sheet.getLastRow();
-      let nextNo = 1001;
-      if (lastRow > 1) {
-        const lastBillId = sheet.getRange(lastRow, 1).getValue();
-        const parsed = parseInt(lastBillId);
-        if (!isNaN(parsed)) nextNo = parsed + 1;
-        else nextNo = lastRow; // fallback
-      }
+      const nextNo  = lastRow > 1
+        ? (parseInt(sheet.getRange(lastRow, 1).getValue()) || 1000) + 1
+        : 1001;
       return ContentService
         .createTextOutput(JSON.stringify({ billNo: nextNo }))
         .setMimeType(ContentService.MimeType.JSON);
-    } finally {
-      lock.releaseLock();
-    }
+    } finally { lock.releaseLock(); }
   }
 }
 
 function doPost(e) {
   const data = JSON.parse(e.postData.contents);
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  
+  const ss   = SpreadsheetApp.getActiveSpreadsheet();
+
   if (data.action === "saveBill") {
-    const billsSheet = ss.getSheetByName("Bills");
-    const itemsSheet = ss.getSheetByName("Bill_Items");
-    
-    billsSheet.appendRow([
+    let driveLink = "";
+
+    // ── PRESCRIPTION → GOOGLE DRIVE UPLOAD ──
+    if (data.prescriptionBase64 && data.prescriptionBase64.length > 0) {
+      try {
+        const folder   = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+        const bytes    = Utilities.base64Decode(data.prescriptionBase64);
+        const blob     = Utilities.newBlob(bytes, data.prescriptionMime || "image/jpeg",
+                           `Bill${data.billId}_${data.patient}.jpg`);
+        const file     = folder.createFile(blob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        driveLink = file.getUrl();   // ← Yahi link Sheets mein jayegi
+      } catch(err) {
+        driveLink = "Upload failed: " + err.message;
+      }
+    }
+
+    // ── SAVE TO BILLS SHEET ──
+    ss.getSheetByName("Bills").appendRow([
       data.billId, data.date, data.time,
       data.patient, data.doctor, data.mobile,
-      data.discount, data.total,
-      "",          // MargERP Bill No — Google Sheets mein seedha bharo
+      data.discountType, data.discountValue, data.total,
+      "",           // MargERP Bill No — Sheets mein manually bharo
       "Pending",
-      data.prescription
+      driveLink     // ← Drive link ya blank
     ]);
-    
-    data.items.forEach(item => {
-      itemsSheet.appendRow([
-        data.billId, item.medicine, item.qty,
-        item.unit, item.mrp, item.tabsPerStrip, item.amount
+
+    // ── SAVE TO BILL_ITEMS SHEET ──
+    data.items.forEach(i => {
+      ss.getSheetByName("Bill_Items").appendRow([
+        data.billId, i.medicine, i.qty,
+        i.unit, i.mrp, i.tabsPerStrip, i.amount
       ]);
     });
   }
-  
+
   return ContentService
-    .createTextOutput(JSON.stringify({status:"ok"}))
+    .createTextOutput(JSON.stringify({ status:"ok" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Pending MargERP bills ka automatic email — Trigger every 1 hour
+// ── PENDING MARGERP CHECK — Every 1 hour ──
 function checkPendingMargERP() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Bills");
-  const rows = sheet.getDataRange().getValues();
-  const now = new Date();
-  const ADMIN_EMAIL = "your-email@gmail.com"; // YAHAN APNA EMAIL DAALO
-  
-  let pending = [];
-  let totalAmt = 0;
-  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bills");
+  const rows  = sheet.getDataRange().getValues();
+  const now   = new Date();
+  let pending = [], total = 0;
   for (let i = 1; i < rows.length; i++) {
     const r = rows[i];
-    const margErp = r[8];
-    const status  = r[9];
-    
-    if (!margErp || margErp === "" || status === "Pending") {
-      const billDate = r[1]; // "DD/MM/YYYY"
-      const billTime = r[2]; // "HH:MM"
-      
+    if (!r[9] || r[9] === "") {
       try {
-        const parts = billDate.split("/");
+        const parts = String(r[1]).split("/");
         const dt = new Date(parts[2], parts[1]-1, parts[0],
-          parseInt(billTime.split(":")[0]),
-          parseInt(billTime.split(":")[1]));
-        const hoursDiff = (now - dt) / 3600000;
-        
-        if (hoursDiff >= 4) {
-          pending.push(`Bill #${r[0]} — Patient: ${r[3]} — ₹${r[7]} — Time: ${r[2]}`);
-          totalAmt += Number(r[7]) || 0;
+          ...String(r[2]).split(":").map(Number));
+        if ((now - dt) / 3600000 >= 4) {
+          pending.push(`Bill #${r[0]} — ${r[3]} — ₹${r[8]}`);
+          total += Number(r[8]) || 0;
         }
-      } catch(e) {}
+      } catch(err) {}
     }
   }
-  
   if (pending.length > 0) {
-    GmailApp.sendEmail(
-      ADMIN_EMAIL,
-      `⚠️ Sahyog Medical — ${pending.length} Pending MargERP Bills`,
-      `Yeh bills 4+ ghante se pending hain:\n\n${pending.join('\n')}\n\n` +
-      `Total Pending Amount: ₹${totalAmt}\n\n` +
-      `Please Google Sheet mein MargERP Bill No enter karein.`
-    );
+    GmailApp.sendEmail(ADMIN_EMAIL,
+      `⚠️ ${pending.length} Pending MargERP Bills — Sahyog Medical`,
+      `${pending.join('\n')}\n\nTotal: ₹${total}`);
   }
 }
 
-// Morning Report — Daily 9 AM
+// ── MORNING REPORT — Daily 9 AM ──
 function morningReport() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Bills");
-  const rows = sheet.getDataRange().getValues();
-  const ADMIN_EMAIL = "your-email@gmail.com";
-  
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yStr = yesterday.toLocaleDateString('en-IN');
-  
-  let bills=0, total=0, completed=0, pending=0;
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bills");
+  const rows  = sheet.getDataRange().getValues();
+  const yd    = new Date(); yd.setDate(yd.getDate() - 1);
+  const yStr  = yd.toLocaleDateString('en-IN');
+  let bills=0, total=0, done=0, pend=0;
   rows.slice(1).forEach(r => {
-    if (r[1] === yStr) {
-      bills++;
-      total += Number(r[7]) || 0;
-      if (r[8] && r[8] !== "") completed++;
-      else pending++;
-    }
+    if (r[1] === yStr) { bills++; total += Number(r[8])||0; r[9] ? done++ : pend++; }
   });
-  
-  GmailApp.sendEmail(
-    ADMIN_EMAIL,
-    `🌅 Sahyog Medical — Morning Report (${yStr})`,
-    `Kal ka summary:\n\nTotal Bills: ${bills}\nTotal Sales: ₹${total}\n` +
-    `MargERP Done: ${completed}\nMargERP Pending: ${pending}`
-  );
+  GmailApp.sendEmail(ADMIN_EMAIL,
+    `🌅 Morning Report — ${yStr}`,
+    `Bills: ${bills}\nSales: ₹${total}\nMargERP Done: ${done}\nPending: ${pend}`);
 }
 
-// Evening Report — Daily 8 PM
+// ── EVENING REPORT — Daily 8 PM ──
 function eveningReport() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Bills");
-  const rows = sheet.getDataRange().getValues();
-  const ADMIN_EMAIL = "your-email@gmail.com";
-  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bills");
+  const rows  = sheet.getDataRange().getValues();
   const today = new Date().toLocaleDateString('en-IN');
-  
-  let bills=0, total=0, pending=0;
+  let bills=0, total=0, pend=0;
   rows.slice(1).forEach(r => {
-    if (r[1] === today) {
-      bills++;
-      total += Number(r[7]) || 0;
-      if (!r[8] || r[8] === "") pending++;
-    }
+    if (r[1] === today) { bills++; total += Number(r[8])||0; if (!r[9]) pend++; }
   });
-  
-  GmailApp.sendEmail(
-    ADMIN_EMAIL,
-    `🌙 Sahyog Medical — Evening Report (${today})`,
-    `Aaj ka summary:\n\nTotal Bills: ${bills}\nTotal Sales: ₹${total}\n` +
-    `MargERP Pending: ${pending} bills`
-  );
+  GmailApp.sendEmail(ADMIN_EMAIL,
+    `🌙 Evening Report — ${today}`,
+    `Bills: ${bills}\nSales: ₹${total}\nPending MargERP: ${pend}`);
 }
-─────────────────────────────────────────────
 
-STEP 3: Deploy → New Deployment
-  Type: Web App
-  Execute as: Me
-  Access: Anyone
-  → URL copy karo → SHEETS_URL mein paste karo (line 1 ke baad)
+TRIGGERS:
+- morningReport        → Daily 9 AM
+- eveningReport        → Daily 8 PM
+- checkPendingMargERP  → Every 1 hour
 
-STEP 4: Time Triggers set karo:
-  morningReport   → Time-based → Day timer → 9 AM
-  eveningReport   → Time-based → Day timer → 8 PM
-  checkPendingMargERP → Time-based → Hour timer → Every 1 hour
+SHEETS SETUP:
+Bills:
+  A:BillID | B:Date | C:Time | D:Patient | E:Doctor | F:Mobile
+  G:DiscType | H:DiscValue | I:Total | J:MargERP_BillNo | K:Status | L:Prescription_DriveLink
 
-STEP 5: MargERP entry sirf Google Sheet mein karo:
-  Column I mein MargERP number daalo
-  Column J automatically Pending → Completed ho jaayega
-  (Formula: =IF(I2="","Pending","Completed"))
+Bill_Items:
+  A:BillID | B:Medicine | C:Qty | D:Unit | E:MRP | F:TabsPerStrip | G:Amount
 
-══════════════════════════════════════════════════════════
+DRIVE SETUP:
+1. Drive mein "Sahyog_Prescriptions" folder banao
+2. Folder URL se ID copy karo
+3. DRIVE_FOLDER_ID = "..." mein paste karo
+
+══════════════════════════════════════════════════
 -->
 </body>
 </html>
