@@ -511,6 +511,7 @@
       width: 100%;
       text-align: center;
       min-height: 40px;
+      appearance: none;
       -webkit-appearance: none;
       transition: border-color 0.15s;
     }
@@ -642,6 +643,7 @@
       outline: none;
       text-align: center;
       min-height: 44px;
+      appearance: none;
       -webkit-appearance: none;
     }
 
@@ -1865,34 +1867,49 @@
       try {
         toast('info', 'Bluetooth', 'Printer dhundh raha hai...');
 
-        // Try each known profile
+        btDevice = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true,
+          optionalServices: BT_PROFILES.map(p => p.service)
+        });
+        
+        const server = await btDevice.gatt.connect();
         let connected = false;
-        for (const profile of BT_PROFILES) {
-          try {
-            btDevice = await navigator.bluetooth.requestDevice({
-              acceptAllDevices: true,
-              optionalServices: BT_PROFILES.map(p => p.service)
-            });
-            const server = await btDevice.gatt.connect();
 
-            for (const p of BT_PROFILES) {
-              try {
-                const svc = await server.getPrimaryService(p.service);
-                btChar = await svc.getCharacteristic(p.char);
-                connected = true;
-                break;
-              } catch (e) { /* try next profile */ }
+        // Try mapped profiles first
+        for (const p of BT_PROFILES) {
+          try {
+            const svc = await server.getPrimaryService(p.service);
+            btChar = await svc.getCharacteristic(p.char);
+            if (btChar) {
+              connected = true;
+              break;
             }
-            break; // device selected, stop asking
-          } catch (e) {
-            if (e.name === 'NotFoundError') return false; // user cancelled
-            break;
+          } catch (e) {}
+        }
+
+        // Generic Fallback: Find any writable characteristic
+        if (!connected) {
+          toast('info', 'Generic Mode', 'Finding any writable BT service...');
+          try {
+            const services = await server.getPrimaryServices();
+            for (const svc of services) {
+              const chars = await svc.getCharacteristics();
+              for (const ch of chars) {
+                if (ch.properties.write || ch.properties.writeWithoutResponse) {
+                  btChar = ch;
+                  connected = true;
+                  break;
+                }
+              }
+              if (connected) break;
+            }
+          } catch(err) {
+            console.error('Fallback fail:', err);
           }
         }
 
         if (!connected || !btChar) {
-          // Last fallback — try writeValue on any writable char
-          toast('warn', 'Warning', 'Standard profile nahi mila, generic try kar raha...');
+          toast('warn', 'Warning', 'Writable printer profile nahi mila.');
           return false;
         }
 
